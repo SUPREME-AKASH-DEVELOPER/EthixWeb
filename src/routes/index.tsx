@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
@@ -23,7 +23,24 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal } from "@/components/Reveal";
 import { GlobalNetwork } from "@/components/GlobalNetwork";
 import { Testimonials } from "@/components/Testimonials";
+import { useTheme } from "@/components/ThemeProvider";
 import operatorCharacter from "@/assets/operator-character.png";
+
+const SLEEP_DARK = "/Untitled design (38).png"; // red blanket — dark mode
+const SLEEP_LIGHT = "/Untitled design (38).png"; // red blanket — light mode too
+
+function useIsSleeping() {
+  const check = () => {
+    const h = new Date().getHours();
+    return h >= 17 || h < 8;
+  };
+  const [sleeping, setSleeping] = useState(check);
+  useEffect(() => {
+    const id = setInterval(() => setSleeping(check()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+  return sleeping;
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -124,8 +141,8 @@ function Hero() {
   return (
     <section className="relative -mt-24 overflow-hidden bg-gradient-hero px-6 pb-24 pt-36 sm:pb-28 lg:pt-40">
       <div className="absolute inset-0 grid-bg opacity-50" />
-      <div className="absolute left-1/2 top-0 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-primary/20 blur-[150px] animate-pulse-glow" />
-      <div className="absolute bottom-0 right-0 h-[30rem] w-[30rem] rounded-full bg-[#391516]/50 blur-[160px]" />
+      <div className="absolute left-1/2 top-0 h-136 w-136 -translate-x-1/2 rounded-full bg-primary/25 blur-[150px] animate-pulse-glow" />
+      <div className="absolute bottom-0 right-0 h-120 w-120 rounded-full bg-primary/20 blur-[160px]" />
 
       <div className="relative mx-auto grid max-w-7xl items-center gap-14 pt-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
@@ -139,7 +156,15 @@ function Hero() {
             <h1 className="mt-7 max-w-5xl text-[clamp(2.61rem,6.34vw,6.16rem)] font-extrabold leading-[0.9] text-gradient">
               We run the tech.
               <br />
-              You run the <span className="bg-linear-to-r from-red-500 to-orange-400 bg-clip-text text-transparent">business.</span>
+              You run the{" "}
+              <span
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: "linear-gradient(135deg, #D13A40 0%, #B32228 50%, #8A181C 100%)",
+                }}
+              >
+                business.
+              </span>
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
@@ -178,42 +203,55 @@ function Hero() {
 }
 
 const heroBadges = [
-  { label: "More booked jobs",     style: { top: "6%",    left: "2%"                                    }, icon: PhoneCall  },
-  { label: "More conversions",     style: { top: "14%",   right: "0%"                                   }, icon: TrendingUp },
-  { label: "UI/UX Systems",        style: { top: "45%",   left: "0%"                                    }, icon: Layers3    },
-  { label: "Revenue tracked",      style: { bottom: "18%", right: "2%"                                  }, icon: DollarSign },
-  { label: "Design that converts", style: { bottom: "3%", left: "12%"                                  }, icon: Palette    },
+  { label: "More booked jobs", style: { top: "6%", left: "2%" }, icon: PhoneCall },
+  { label: "More conversions", style: { top: "14%", right: "0%" }, icon: TrendingUp },
+  { label: "UI/UX Systems", style: { top: "45%", left: "0%" }, icon: Layers3 },
+  { label: "Revenue tracked", style: { bottom: "18%", right: "2%" }, icon: DollarSign },
+  { label: "Design that converts", style: { bottom: "3%", left: "12%" }, icon: Palette },
 ];
 
 function OperationsVisual() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sleeping = useIsSleeping();
+  const { theme } = useTheme();
+
+  // Motion values driven by window-level cursor (not container-bound)
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [7, -7]),   { stiffness: 150, damping: 25 });
-  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]),   { stiffness: 150, damping: 25 });
-  const charX   = useSpring(useTransform(mx, [-0.5, 0.5], [-18, 18]), { stiffness: 80,  damping: 18 });
-  const charY   = useSpring(useTransform(my, [-0.5, 0.5], [-12, 12]), { stiffness: 80,  damping: 18 });
+  const rotateX = useSpring(useTransform(my, [-1, 1], [5, -5]), { stiffness: 100, damping: 28 });
+  const rotateY = useSpring(useTransform(mx, [-1, 1], [-5, 5]), { stiffness: 100, damping: 28 });
+  const charX = useSpring(useTransform(mx, [-1, 1], [-20, 20]), { stiffness: 70, damping: 20 });
+  const charY = useSpring(useTransform(my, [-1, 1], [-12, 12]), { stiffness: 70, damping: 20 });
 
-  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mx.set((e.clientX - rect.left - rect.width / 2) / rect.width);
-    my.set((e.clientY - rect.top - rect.height / 2) / rect.height);
-  }
+  useEffect(() => {
+    if (sleeping) return; // no cursor tracking when sleeping
+    let idleTimer: ReturnType<typeof setTimeout>;
 
-  function onMouseLeave() {
-    mx.set(0);
-    my.set(0);
-  }
+    const onMove = (e: MouseEvent) => {
+      mx.set((e.clientX / window.innerWidth - 0.5) * 2);
+      my.set((e.clientY / window.innerHeight - 0.5) * 2);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        mx.set(0);
+        my.set(0);
+      }, 3500);
+    };
+    const onOrient = (e: DeviceOrientationEvent) => {
+      if (e.gamma !== null) mx.set(Math.max(-1, Math.min(1, e.gamma / 25)));
+      if (e.beta !== null) my.set(Math.max(-1, Math.min(1, (e.beta - 45) / 25)));
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("deviceorientation", onOrient, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("deviceorientation", onOrient);
+      clearTimeout(idleTimer);
+    };
+  }, [sleeping, mx, my]);
+
+  const sleepSrc = theme === "dark" ? SLEEP_DARK : SLEEP_LIGHT;
 
   return (
-    <motion.div
-      ref={containerRef}
-      className="relative mx-auto w-full max-w-130"
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      style={{ perspective: "900px" }}
-    >
+    <motion.div className="relative mx-auto w-full max-w-130" style={{ perspective: "900px" }}>
       <div className="absolute inset-6 rounded-full bg-primary/20 blur-[110px]" />
       <motion.div
         className="relative h-155 sm:h-170"
@@ -221,28 +259,30 @@ function OperationsVisual() {
       >
         {/* starfield dots */}
         {[
-          { top: "8%",  left: "12%",  color: "#3b82f6", size: 5,  blur: 6  },
-          { top: "18%", left: "78%",  color: "#ef4444", size: 4,  blur: 5  },
-          { top: "30%", left: "88%",  color: "#3b82f6", size: 6,  blur: 8  },
-          { top: "42%", left: "70%",  color: "#ef4444", size: 3,  blur: 4  },
-          { top: "55%", left: "82%",  color: "#3b82f6", size: 5,  blur: 7  },
-          { top: "65%", left: "15%",  color: "#ef4444", size: 4,  blur: 5  },
-          { top: "72%", left: "60%",  color: "#3b82f6", size: 7,  blur: 10 },
-          { top: "25%", left: "22%",  color: "#3b82f6", size: 3,  blur: 4  },
-          { top: "50%", left: "30%",  color: "#ef4444", size: 5,  blur: 6  },
-          { top: "80%", left: "40%",  color: "#3b82f6", size: 4,  blur: 5  },
-          { top: "10%", left: "55%",  color: "#ef4444", size: 3,  blur: 4  },
-          { top: "38%", left: "8%",   color: "#3b82f6", size: 6,  blur: 8  },
-          { top: "60%", left: "92%",  color: "#ef4444", size: 4,  blur: 6  },
-          { top: "85%", left: "72%",  color: "#3b82f6", size: 5,  blur: 7  },
-          { top: "15%", left: "40%",  color: "#ef4444", size: 3,  blur: 4  },
+          { top: "8%", left: "12%", color: "#3b82f6", size: 5, blur: 6 },
+          { top: "18%", left: "78%", color: "#ef4444", size: 4, blur: 5 },
+          { top: "30%", left: "88%", color: "#3b82f6", size: 6, blur: 8 },
+          { top: "42%", left: "70%", color: "#ef4444", size: 3, blur: 4 },
+          { top: "55%", left: "82%", color: "#3b82f6", size: 5, blur: 7 },
+          { top: "65%", left: "15%", color: "#ef4444", size: 4, blur: 5 },
+          { top: "72%", left: "60%", color: "#3b82f6", size: 7, blur: 10 },
+          { top: "25%", left: "22%", color: "#3b82f6", size: 3, blur: 4 },
+          { top: "50%", left: "30%", color: "#ef4444", size: 5, blur: 6 },
+          { top: "80%", left: "40%", color: "#3b82f6", size: 4, blur: 5 },
+          { top: "10%", left: "55%", color: "#ef4444", size: 3, blur: 4 },
+          { top: "38%", left: "8%", color: "#3b82f6", size: 6, blur: 8 },
+          { top: "60%", left: "92%", color: "#ef4444", size: 4, blur: 6 },
+          { top: "85%", left: "72%", color: "#3b82f6", size: 5, blur: 7 },
+          { top: "15%", left: "40%", color: "#ef4444", size: 3, blur: 4 },
         ].map((dot, i) => (
           <span
             key={i}
             className="pointer-events-none absolute rounded-full"
             style={{
-              top: dot.top, left: dot.left,
-              width: dot.size, height: dot.size,
+              top: dot.top,
+              left: dot.left,
+              width: dot.size,
+              height: dot.size,
               background: dot.color,
               boxShadow: `0 0 ${dot.blur}px ${dot.blur / 2}px ${dot.color}`,
               opacity: 0.7,
@@ -251,14 +291,79 @@ function OperationsVisual() {
         ))}
         <motion.div
           className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2"
-          style={{ x: charX, y: charY }}
+          style={sleeping ? {} : { x: charX, y: charY }}
         >
+          {sleeping && (
+            <>
+              {/* Ambient glow — dark: red, light: soft neutral */}
+              <div
+                className="pointer-events-none absolute inset-0 z-0"
+                style={{
+                  background:
+                    theme === "dark"
+                      ? "radial-gradient(ellipse 65% 55% at 50% 72%, rgba(138,24,28,0.14), transparent 68%)"
+                      : "radial-gradient(ellipse 65% 55% at 50% 72%, rgba(180,160,160,0.16), transparent 68%)",
+                  filter: "blur(18px)",
+                }}
+              />
+
+              {/* Laptop screen glow — soft blue-white pulse */}
+              <div
+                className="laptop-screen-glow pointer-events-none absolute z-20"
+                style={{
+                  width: "90px",
+                  height: "56px",
+                  left: "18%",
+                  bottom: "32%",
+                  background: "radial-gradient(ellipse, rgba(140,175,230,0.55), transparent 68%)",
+                  filter: "blur(14px)",
+                  borderRadius: "40%",
+                }}
+              />
+
+              {/* Zzz particles — premium, italic, staggered */}
+              <div className="pointer-events-none absolute right-6 top-14 z-20">
+                {[
+                  { delay: "0s", size: "1.1rem", weight: 700, opacity: 0.48, left: "2px" },
+                  { delay: "1.6s", size: "0.82rem", weight: 600, opacity: 0.32, left: "16px" },
+                  { delay: "3.2s", size: "0.62rem", weight: 500, opacity: 0.22, left: "8px" },
+                ].map((z, i) => (
+                  <span
+                    key={i}
+                    className="zzz-particle absolute select-none"
+                    style={{
+                      left: z.left,
+                      bottom: `${i * 26}px`,
+                      fontSize: z.size,
+                      fontWeight: z.weight,
+                      fontStyle: "italic",
+                      letterSpacing: "0.04em",
+                      opacity: z.opacity,
+                      animationDelay: z.delay,
+                    }}
+                  >
+                    z
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+
           <motion.img
-            src={operatorCharacter}
-            alt="Ethixweb digital operations specialist"
-            className="h-145 max-w-none object-contain drop-shadow-[0_34px_90px_rgba(0,0,0,0.72)] sm:h-160"
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            key={sleeping ? "sleep" : "active"}
+            src={sleeping ? sleepSrc : operatorCharacter}
+            alt="Ethixweb mascot"
+            className={`h-145 max-w-none object-contain sm:h-160 ${sleeping ? "mascot-breathe" : "drop-shadow-[0_34px_90px_rgba(0,0,0,0.72)]"}`}
+            initial={{ opacity: 0 }}
+            animate={sleeping ? { opacity: 1 } : { opacity: 1, y: [0, -12, 0] }}
+            transition={
+              sleeping
+                ? { opacity: { duration: 1.0, ease: "easeOut" } }
+                : {
+                    opacity: { duration: 0.6, ease: "easeOut" },
+                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  }
+            }
             loading="eager"
             decoding="async"
             fetchPriority="high"
@@ -276,7 +381,9 @@ function OperationsVisual() {
             transition={{ delay: i * 0.1, type: "spring", stiffness: 300, damping: 20 }}
           >
             <badge.icon className="h-4 w-4 shrink-0 text-primary" />
-            <span className="whitespace-nowrap text-sm font-semibold text-white">{badge.label}</span>
+            <span className="whitespace-nowrap text-sm font-semibold text-white">
+              {badge.label}
+            </span>
           </motion.div>
         ))}
       </motion.div>

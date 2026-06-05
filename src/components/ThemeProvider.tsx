@@ -12,8 +12,11 @@ export function useTheme() {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    try { return (localStorage.getItem("ethix-theme") as Theme) || "light"; }
-    catch { return "light"; }
+    try {
+      return (localStorage.getItem("ethix-theme") as Theme) || "light";
+    } catch {
+      return "light";
+    }
   });
 
   useEffect(() => {

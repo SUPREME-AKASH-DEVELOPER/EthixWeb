@@ -21,15 +21,15 @@ function ThemeToggle() {
     <motion.button
       onClick={toggle}
       className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-colors hover:border-primary/30 hover:text-foreground"
-      whileTap={{ scale: 0.90 }}
+      whileTap={{ scale: 0.9 }}
       aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={theme}
           initial={{ opacity: 0, rotate: -30, scale: 0.7 }}
-          animate={{ opacity: 1, rotate: 0,   scale: 1   }}
-          exit={{    opacity: 0, rotate:  30,  scale: 0.7 }}
+          animate={{ opacity: 1, rotate: 0, scale: 1 }}
+          exit={{ opacity: 0, rotate: 30, scale: 0.7 }}
           transition={{ duration: 0.18 }}
           className="flex"
         >

@@ -5,11 +5,16 @@ let _ctx: AudioContext | null = null;
 function getCtx(): AudioContext | null {
   try {
     if (!_ctx || _ctx.state === "closed") {
-      _ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+      _ctx = new (
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      )();
     }
     if (_ctx.state === "suspended") _ctx.resume();
     return _ctx;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 function playClick() {
@@ -17,7 +22,7 @@ function playClick() {
   if (!ctx) return;
   try {
     const now = ctx.currentTime;
-    const osc  = ctx.createOscillator();
+    const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = "sine";
     osc.frequency.setValueAtTime(1100, now);
@@ -30,20 +35,22 @@ function playClick() {
     osc.stop(now + 0.08);
 
     const bufLen = Math.floor(ctx.sampleRate * 0.04);
-    const buf    = ctx.createBuffer(1, bufLen, ctx.sampleRate);
-    const data   = buf.getChannelData(0);
+    const buf = ctx.createBuffer(1, bufLen, ctx.sampleRate);
+    const data = buf.getChannelData(0);
     for (let i = 0; i < bufLen; i++) {
       data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufLen, 4);
     }
-    const noise     = ctx.createBufferSource();
+    const noise = ctx.createBufferSource();
     const noiseGain = ctx.createGain();
-    noise.buffer    = buf;
+    noise.buffer = buf;
     noiseGain.gain.setValueAtTime(0.055, now);
     noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
     noise.connect(noiseGain);
     noiseGain.connect(ctx.destination);
     noise.start(now);
-  } catch { /* silent */ }
+  } catch {
+    /* silent */
+  }
 }
 
 export function useClickSound() {

@@ -3,7 +3,7 @@ import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { Star, ExternalLink } from "lucide-react";
 import { Reveal } from "./Reveal";
 
-const BRAND = "#252B6D";
+const BRAND = "#00b67a";
 
 const REVIEWS = [
   {
@@ -41,7 +41,11 @@ function TrustpilotLogo() {
     <div className="flex flex-col items-end gap-1">
       <div className="flex gap-0.5">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="flex h-5 w-5 items-center justify-center" style={{ background: BRAND }}>
+          <div
+            key={i}
+            className="flex h-5 w-5 items-center justify-center"
+            style={{ background: BRAND }}
+          >
             <Star className="h-3 w-3 fill-white text-white" />
           </div>
         ))}
@@ -58,13 +62,14 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
       transition={{ type: "spring", stiffness: 300, damping: 22 }}
       className="premium-card relative min-w-[320px] max-w-90 shrink-0 overflow-hidden rounded-2xl p-6"
     >
-      <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full blur-2xl" style={{ background: `${BRAND}18` }} />
+      <div
+        className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full blur-2xl"
+        style={{ background: `${BRAND}18` }}
+      />
 
       <StarRow count={review.stars} />
 
-      <p className="mt-4 text-sm leading-7 text-muted-foreground">
-        &ldquo;{review.text}&rdquo;
-      </p>
+      <p className="mt-4 text-sm leading-7 text-muted-foreground">&ldquo;{review.text}&rdquo;</p>
 
       <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
         <div>
@@ -80,13 +85,13 @@ function ReviewCard({ review }: { review: (typeof REVIEWS)[number] }) {
 }
 
 function InfiniteCarousel() {
-  const x        = useMotionValue(0);
+  const x = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
 
   useAnimationFrame((_, delta) => {
     const trackW = trackRef.current?.scrollWidth ?? 0;
-    const half   = trackW / 2;
-    const next   = (x.get() - 0.4 * delta * 0.06) % half;
+    const half = trackW / 2;
+    const next = (x.get() - 0.4 * delta * 0.06) % half;
     x.set(next <= -half ? 0 : next);
   });
 
@@ -106,15 +111,16 @@ function InfiniteCarousel() {
 export function Testimonials() {
   return (
     <section className="relative overflow-hidden px-6 py-24">
-      <div className="pointer-events-none absolute left-1/4 top-1/2 h-144 w-xl -translate-y-1/2 rounded-full blur-[140px]" style={{ background: `${BRAND}0d` }} />
+      <div
+        className="pointer-events-none absolute left-1/4 top-1/2 h-144 w-xl -translate-y-1/2 rounded-full blur-[140px]"
+        style={{ background: `${BRAND}0d` }}
+      />
       <div className="pointer-events-none absolute right-1/4 top-1/2 h-112 w-md -translate-y-1/2 rounded-full bg-primary/8 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl">
-
         {/* Header row */}
         <Reveal>
           <div className="flex flex-col items-center gap-6 text-center lg:flex-row lg:justify-between lg:text-left">
-
             {/* Left */}
             <div className="max-w-xl">
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.24em] text-primary">
@@ -124,12 +130,13 @@ export function Testimonials() {
                 Trusted by businesses worldwide.
               </h2>
               <p className="mt-4 text-base leading-7 text-muted-foreground">
-                Real feedback from clients who trusted Ethixweb to design, build, and grow their digital presence.
+                Real feedback from clients who trusted Ethixweb to design, build, and grow their
+                digital presence.
               </p>
             </div>
 
             {/* Right: trust score card */}
-            <div className="premium-card shrink-0 rounded-2xl p-6 text-center lg:min-w-[220px]">
+            <div className="premium-card shrink-0 rounded-2xl p-6 text-center lg:min-w-55">
               <TrustpilotLogo />
               <div className="mt-4 flex items-end justify-center gap-1">
                 <span className="text-5xl font-extrabold text-foreground">4.0</span>
@@ -173,7 +180,6 @@ export function Testimonials() {
             </a>
           </div>
         </Reveal>
-
       </div>
     </section>
   );

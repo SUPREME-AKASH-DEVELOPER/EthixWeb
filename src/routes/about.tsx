@@ -49,9 +49,13 @@ function About() {
                   className="absolute bottom-0 left-1/2 z-10 h-125 max-w-none -translate-x-1/2 object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.65)]"
                 />
                 {[
-                  { label: "US-Focused Ops",    icon: Globe2,     style: { top: "8%",    left: "0%" }   },
-                  { label: "Senior Team",        icon: ShieldCheck,style: { top: "42%",   left: "0%" }   },
-                  { label: "Strategy to Launch", icon: Workflow,   style: { bottom: "8%", left: "12%" }  },
+                  { label: "US-Focused Ops", icon: Globe2, style: { top: "8%", left: "0%" } },
+                  { label: "Senior Team", icon: ShieldCheck, style: { top: "42%", left: "0%" } },
+                  {
+                    label: "Strategy to Launch",
+                    icon: Workflow,
+                    style: { bottom: "8%", left: "12%" },
+                  },
                 ].map((badge, i) => (
                   <motion.div
                     key={badge.label}
@@ -64,7 +68,9 @@ function About() {
                     transition={{ delay: i * 0.12, type: "spring", stiffness: 280, damping: 20 }}
                   >
                     <badge.icon className="h-4 w-4 shrink-0 text-primary" />
-                    <span className="whitespace-nowrap text-sm font-semibold text-white">{badge.label}</span>
+                    <span className="whitespace-nowrap text-sm font-semibold text-white">
+                      {badge.label}
+                    </span>
                   </motion.div>
                 ))}
               </div>
