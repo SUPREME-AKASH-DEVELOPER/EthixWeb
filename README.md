@@ -52,24 +52,24 @@ vercel
 
 ### Vercel Settings (if needed)
 
-| Setting | Value |
-|---|---|
-| Framework Preset | Vite |
-| Build Command | `npm run build` |
-| Output Directory | `dist` |
-| Install Command | `npm install` |
-| Node.js Version | 22.x |
+| Setting          | Value           |
+| ---------------- | --------------- |
+| Framework Preset | Vite            |
+| Build Command    | `npm run build` |
+| Output Directory | `dist`          |
+| Install Command  | `npm install`   |
+| Node.js Version  | 22.x            |
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start dev server |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build locally |
-| `npm run typecheck` | TypeScript type check |
-| `npm run lint` | Lint code |
-| `npm run format` | Format code with Prettier |
+| Command             | Description                      |
+| ------------------- | -------------------------------- |
+| `npm run dev`       | Start dev server                 |
+| `npm run build`     | Production build                 |
+| `npm run preview`   | Preview production build locally |
+| `npm run typecheck` | TypeScript type check            |
+| `npm run lint`      | Lint code                        |
+| `npm run format`    | Format code with Prettier        |
 
 ## Environment Variables
 
