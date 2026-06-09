@@ -672,6 +672,16 @@ html.dark {
     radial-gradient(circle at 20% 80%, rgba(138, 24, 28, 0.1), transparent 42%);
 }
 
+.light input,
+.light textarea,
+.light select {
+  border-color: rgba(0, 0, 0, 0.35);
+}
+.light input:focus,
+.light textarea:focus {
+  border-color: var(--color-primary);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
