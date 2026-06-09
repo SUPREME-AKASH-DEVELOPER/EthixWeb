@@ -598,12 +598,16 @@ html.dark {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 }
 .light .glass-strong {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(250, 247, 244, 0.92));
-  backdrop-filter: blur(24px) saturate(155%);
-  border: 1px solid rgba(0, 0, 0, 0.09);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(250, 247, 244, 0.45));
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.light header {
+  --muted-foreground: #3a3030;
+  --foreground: #1a1010;
 }
 .light .premium-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 244, 0.95));

@@ -173,7 +173,7 @@ function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-24 overflow-hidden bg-gradient-hero px-6 pb-24 pt-36 sm:pb-28 lg:pt-40">
+    <section className="relative -mt-24 overflow-hidden bg-gradient-hero px-6 pb-4 pt-36 sm:pb-28 lg:pt-40">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute left-1/2 top-0 h-136 w-136 -translate-x-1/2 rounded-full bg-primary/25 blur-[150px] animate-pulse-glow" />
       <div className="absolute bottom-0 right-0 h-120 w-120 rounded-full bg-primary/20 blur-[160px]" />
@@ -268,8 +268,8 @@ const heroBadges = [
   { label: "More booked jobs", style: { top: "5%", left: "1%" }, icon: PhoneCall, radius: "42% 58% 53% 47% / 48% 42% 58% 52%" },
   { label: "More conversions", style: { top: "10%", right: "-1%" }, icon: TrendingUp, radius: "55% 45% 48% 52% / 44% 56% 44% 56%" },
   { label: "UI/UX Systems", style: { top: "44%", left: "-3%" }, icon: Layers3, radius: "48% 52% 56% 44% / 52% 48% 52% 48%" },
-  { label: "Revenue tracked", style: { bottom: "35%", right: "-2%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
-  { label: "Design that converts", style: { bottom: "8%", left: "10%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
+  { label: "Revenue tracked", style: { bottom: "45%", right: "-2%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
+  { label: "Design that converts", style: { bottom: "12%", left: "10%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
 ];
 
 function OperationsVisual() {
@@ -323,7 +323,7 @@ function OperationsVisual() {
     <motion.div className="relative mx-auto w-full max-w-130" style={{ perspective: "900px" }}>
       <div className="absolute inset-6 rounded-full bg-primary/20 blur-[110px]" />
       <motion.div
-        className="relative h-112 sm:h-155 lg:h-170"
+        className="relative h-72 sm:h-155 lg:h-170"
         style={{ rotateX, rotateY, transformStyle: "preserve-3d", willChange: "transform" }}
       >
         {/* starfield dots */}
@@ -343,7 +343,7 @@ function OperationsVisual() {
           />
         ))}
         <motion.div
-          className={`absolute bottom-0 left-1/2 z-10 -translate-x-1/2 ${sleeping ? "w-full sm:w-auto" : ""}`}
+          className={`absolute -bottom-10 sm:bottom-0 left-1/2 z-10 -translate-x-1/2 ${sleeping ? "w-full sm:w-auto" : ""}`}
           style={sleeping ? {} : { x: charX, y: charY }}
         >
           {sleeping && (
@@ -404,7 +404,7 @@ function OperationsVisual() {
           heroBadges.map((badge, i) => (
             <motion.div
               key={badge.label}
-              className="absolute z-20 flex cursor-default items-center justify-center gap-2 sm:gap-2.5 rounded-full px-3.5 py-3 sm:px-5 sm:py-3 backdrop-blur-xl"
+              className="absolute z-20 flex cursor-default items-center justify-center gap-2 sm:gap-2.5 rounded-full p-3 sm:px-5 sm:py-3 backdrop-blur-xl"
               style={{
                 ...badge.style,
                 border: "1px solid rgba(220,80,90,0.16)",
@@ -441,8 +441,8 @@ function OperationsVisual() {
               <motion.div
                 className="pointer-events-none absolute z-20 flex items-center justify-center"
                 style={isMobile
-                  ? { top: "calc(42% - 50px)", left: "6%", width: "160px", height: "110px" }
-                  : { top: "calc(28% - 30px)", left: "12%", width: "220px", height: "158px" }}
+                  ? { top: "calc(41% - 95px)", left: "calc(6% - 5px)", width: "160px", height: "110px" }
+                  : { top: "calc(22% - 10px)", left: "12%", width: "220px", height: "158px" }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: isMobile ? 0.65 : 0.88, scale: 1, y: isMobile ? [0, -5, 0] : [0, -6, 0] }}
                 transition={{
@@ -472,7 +472,7 @@ function OperationsVisual() {
                   <motion.div
                     key={dream.label}
                     className="relative flex flex-col items-center gap-1 px-4 text-center"
-                    style={{ marginBottom: "18px" }}
+                    style={{ marginBottom: "26px" }}
                     initial={{ opacity: 0, scale: 0.45, y: 6 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.45, y: -6 }}
