@@ -120,24 +120,29 @@ function Contact() {
 
               {/* ── Left panel ── */}
               <div className="relative flex flex-col justify-between overflow-hidden bg-[#0e0c14] px-8 py-10">
-                {/* Left panel mascot */}
-                <motion.img
-                  src="/Ethan%20view%202.png"
-                  alt=""
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -bottom-25 -right-25 z-0 w-auto object-contain object-bottom"
-                  style={{ height: "600px" }}
-                  loading="lazy"
-                  decoding="async"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
-                />
+                {/* Left panel mascot — hidden on success */}
+                <AnimatePresence>
+                  {!sent && (
+                    <motion.img
+                      src="/Ethan%20view%202.png"
+                      alt=""
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -bottom-25 -right-25 z-10 w-auto object-contain object-bottom"
+                      style={{ height: "600px" }}
+                      loading="lazy"
+                      decoding="async"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    />
+                  )}
+                </AnimatePresence>
                 {/* ambient glow */}
                 <div className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-primary/30 blur-[90px]" />
                 <div className="pointer-events-none absolute bottom-0 right-0 h-48 w-48 rounded-full bg-primary/10 blur-[70px]" />
 
-                <div className="relative z-10">
+                <div className="relative z-20">
                   <h2 className="text-3xl font-extrabold leading-tight lg:text-4xl">
                     Let's build something<br />
                     <span className="text-primary">worth building.</span>
@@ -189,13 +194,13 @@ function Contact() {
                 </div>
 
                 {/* Bottom status + contact info */}
-                <div className="relative z-10 mt-8 space-y-5">
+                <div className="relative mt-8 space-y-5">
                   <motion.p
                     key={status}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className={`text-xs font-bold uppercase tracking-[0.22em] ${
+                    className={`relative z-20 text-xs font-bold uppercase tracking-[0.22em] ${
                       status === "WAITING FOR YOU" ? "text-white/25"
                       : status === "SENT ✓"        ? "text-primary"
                       :                              "text-primary/80"
@@ -203,7 +208,9 @@ function Contact() {
                   >
                     {status}
                   </motion.p>
-                  <div className="space-y-3 border-t border-white/8 pt-5">
+                  {/* Border line — behind mascot */}
+                  <div className="relative z-0 border-t border-white/8" />
+                  <div className="relative z-20 space-y-3 pt-2">
                     {[
                       { i: Mail,   v: "info@ethixweb.com" },
                       { i: MapPin, v: "Mon–Fri · 9 AM – 5 PM" },
