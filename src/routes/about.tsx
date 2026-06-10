@@ -84,15 +84,14 @@ function About() {
               Built for contractors tired of big-agency theater.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              Founded in 2023 by Amardeep, Ethixweb specializes in helping US home service
-              businesses - plumbing, HVAC and electrical contractors - generate qualified leads,
-              book more jobs and build long-term authority in their local markets.
+              We started Ethixweb because we were tired of watching good businesses get
+              mediocre results from agencies that overpromise and underdeliver.
             </p>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              Beyond home services, we also partner with select brands on custom web builds,
-              headless migrations, conversion tracking setups and full-stack marketing support
-              across industries. Based in India, with a US presence, serving clients across North
-              America.
+              We're a tight knit team of developers, designers, and strategists, each senior
+              in their craft. When you work with Ethixweb, you work directly with the people
+              building your project. No account managers passing messages. No juniors learning
+              on your budget.
             </p>
           </Reveal>
         </div>

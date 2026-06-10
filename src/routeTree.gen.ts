@@ -27,6 +27,7 @@ import { Route as PoliciesShippingRouteImport } from './routes/policies.shipping
 import { Route as PoliciesRefundsRouteImport } from './routes/policies.refunds'
 import { Route as PoliciesPrivacyRouteImport } from './routes/policies.privacy'
 import { Route as LocationsKentWaRouteImport } from './routes/locations.kent-wa'
+import { Route as ApiContactRouteImport } from './routes/api.contact'
 
 const WebDevelopmentRoute = WebDevelopmentRouteImport.update({
   id: '/web-development',
@@ -118,6 +119,11 @@ const LocationsKentWaRoute = LocationsKentWaRouteImport.update({
   path: '/locations/kent-wa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/api/contact': typeof ApiContactRoute
   '/locations/kent-wa': typeof LocationsKentWaRoute
   '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/refunds': typeof PoliciesRefundsRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/api/contact': typeof ApiContactRoute
   '/locations/kent-wa': typeof LocationsKentWaRoute
   '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/refunds': typeof PoliciesRefundsRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/api/contact': typeof ApiContactRoute
   '/locations/kent-wa': typeof LocationsKentWaRoute
   '/policies/privacy': typeof PoliciesPrivacyRoute
   '/policies/refunds': typeof PoliciesRefundsRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/web-development'
+    | '/api/contact'
     | '/locations/kent-wa'
     | '/policies/privacy'
     | '/policies/refunds'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/web-development'
+    | '/api/contact'
     | '/locations/kent-wa'
     | '/policies/privacy'
     | '/policies/refunds'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/services'
     | '/sitemap.xml'
     | '/web-development'
+    | '/api/contact'
     | '/locations/kent-wa'
     | '/policies/privacy'
     | '/policies/refunds'
@@ -257,6 +269,7 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WebDevelopmentRoute: typeof WebDevelopmentRoute
+  ApiContactRoute: typeof ApiContactRoute
   LocationsKentWaRoute: typeof LocationsKentWaRoute
   PoliciesPrivacyRoute: typeof PoliciesPrivacyRoute
   PoliciesRefundsRoute: typeof PoliciesRefundsRoute
@@ -392,6 +405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocationsKentWaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WebDevelopmentRoute: WebDevelopmentRoute,
+  ApiContactRoute: ApiContactRoute,
   LocationsKentWaRoute: LocationsKentWaRoute,
   PoliciesPrivacyRoute: PoliciesPrivacyRoute,
   PoliciesRefundsRoute: PoliciesRefundsRoute,
