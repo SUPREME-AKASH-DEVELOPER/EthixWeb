@@ -58,6 +58,8 @@ function Contact() {
   const [step, setStep] = useState(1);
   const [dir,  setDir]  = useState(1);
   const [sent, setSent] = useState(false);
+  const [submitting,  setSubmitting]  = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [sel,  setSel]  = useState<{
     service:  ServiceId  | null;
     timeline: TimelineId | null;
@@ -84,8 +86,36 @@ function Contact() {
 
   const go = (next: number) => { setDir(next > step ? 1 : -1); setStep(next); };
 
+  const submitLead = async (payload: {
+    service?: string | null;
+    timeline?: string | null;
+    other?: string;
+    name: string;
+    phone?: string;
+    email: string;
+  }) => {
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Request failed");
+      setSent(true);
+    } catch {
+      setSubmitError("Something went wrong. Please email info@ethixweb.com directly.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const advance = () => {
-    if (step === 1 && isDirect) { setSent(true); return; }
+    if (step === 1 && isDirect) {
+      submitLead({ name: sel.dcName, phone: sel.dcPhone, email: sel.dcEmail });
+      return;
+    }
     go(step + 1);
   };
 
@@ -303,6 +333,9 @@ function Contact() {
                                   />
                                 ))}
                               </div>
+                              {isDirect && submitError && (
+                                <p className="mt-3 text-sm text-red-400">{submitError}</p>
+                              )}
                             </div>
                           </motion.div>
                         )}
@@ -358,13 +391,28 @@ function Contact() {
                             </p>
                             <form
                               id="contact-form"
-                              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                const data = new FormData(e.currentTarget);
+                                submitLead({
+                                  service:  sel.service,
+                                  timeline: sel.timeline,
+                                  other:    sel.other,
+                                  name:  String(data.get("name")  ?? ""),
+                                  phone: String(data.get("phone") ?? ""),
+                                  email: String(data.get("email") ?? ""),
+                                });
+                              }}
                               className="space-y-4"
                             >
                               <div className="grid sm:grid-cols-2 gap-4">
                                 <Field label="Name"  name="name" />
                                 <Field label="Email" name="email" type="email" />
                               </div>
+                              <Field label="Phone (optional)" name="phone" type="tel" required={false} />
+                              {submitError && (
+                                <p className="text-sm text-red-400">{submitError}</p>
+                              )}
                             </form>
                           </motion.div>
                         )}
@@ -387,23 +435,24 @@ function Contact() {
                         <button
                           type="submit"
                           form="contact-form"
-                          className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3 text-sm font-semibold text-white shadow-glow transition"
+                          disabled={submitting}
+                          className="group inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3 text-sm font-semibold text-white shadow-glow transition disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          Send my roadmap
+                          {submitting ? "Sending…" : "Send my roadmap"}
                           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
                         </button>
                       ) : (
                         <motion.button
-                          whileHover={canContinue ? { scale: 1.02 } : {}}
-                          whileTap={canContinue  ? { scale: 0.97 } : {}}
-                          onClick={canContinue ? advance : undefined}
+                          whileHover={canContinue && !submitting ? { scale: 1.02 } : {}}
+                          whileTap={canContinue && !submitting  ? { scale: 0.97 } : {}}
+                          onClick={canContinue && !submitting ? advance : undefined}
                           className={`inline-flex items-center gap-2 rounded-full border px-7 py-3 text-sm font-semibold transition-all duration-300 ${
-                            canContinue
+                            canContinue && !submitting
                               ? "border-primary/50 bg-primary/10 text-white hover:bg-primary/18 cursor-pointer"
                               : "border-white/10 bg-white/4 text-white/35 cursor-not-allowed"
                           }`}
                         >
-                          {isDirect ? "Get a callback" : "Continue"}
+                          {isDirect ? (submitting ? "Sending…" : "Get a callback") : "Continue"}
                           <ArrowUpRight className={`h-4 w-4 transition-all ${canContinue ? "text-primary" : "text-white/20"}`} />
                         </motion.button>
                       )}
@@ -472,7 +521,7 @@ function Contact() {
   );
 }
 
-function Field({ label, name, type = "text" }: { label: string; name: string; type?: string }) {
+function Field({ label, name, type = "text", required = true }: { label: string; name: string; type?: string; required?: boolean }) {
   return (
     <div>
       <label className="text-xs uppercase tracking-widest text-white/50" htmlFor={name}>
@@ -482,7 +531,7 @@ function Field({ label, name, type = "text" }: { label: string; name: string; ty
         id={name}
         name={name}
         type={type}
-        required
+        required={required}
         className="mt-2 w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
       />
     </div>
