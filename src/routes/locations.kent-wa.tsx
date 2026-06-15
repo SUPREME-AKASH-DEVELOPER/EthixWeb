@@ -103,7 +103,7 @@ function Page() {
         <div className="mx-auto max-w-5xl glass-strong rounded-[2rem] p-10 lg:p-14">
           <Reveal>
             <p className="text-sm uppercase tracking-widest text-primary">Local web design</p>
-            <h2 className="mt-3 font-display text-3xl lg:text-4xl font-bold text-gradient">
+            <h2 className="mt-3 font-display text-3xl lg:text-4xl font-bold text-gradient pb-1">
               Professional web design for local businesses in Kent WA.
             </h2>
             <p className="mt-5 text-muted-foreground leading-relaxed">
@@ -124,7 +124,7 @@ function Page() {
               <p className="text-sm uppercase tracking-widest text-primary mb-4">
                 Our services in Kent WA
               </p>
-              <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient pb-1">
                 Built to look good - and convert.
               </h2>
             </div>
@@ -189,7 +189,7 @@ function Page() {
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl glass-strong rounded-[2rem] p-12 text-center">
-          <h2 className="font-display text-4xl font-bold text-gradient">
+          <h2 className="font-display text-4xl font-bold text-gradient pb-1">
             Ready to grow in Kent, WA?
           </h2>
           <p className="mt-4 text-muted-foreground max-w-lg mx-auto">

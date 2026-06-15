@@ -91,7 +91,6 @@ export function TimezoneWidget() {
           backdropFilter: "blur(64px) saturate(160%)",
           WebkitBackdropFilter: "blur(64px) saturate(160%)",
           border: "1px solid rgba(0,0,0,0.08)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
         };
 
   return (

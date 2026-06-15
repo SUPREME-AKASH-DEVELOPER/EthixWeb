@@ -1,49 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { Resend } from "resend";
+import {
+  SERVICE_LABELS,
+  TIMELINE_LABELS,
+  FROM_EMAIL,
+  REPLY_TO_INFO,
+  escapeHtml,
+  emailRow,
+  emailShell,
+  emailButton,
+} from "@/lib/email";
 
-const TO_EMAIL = "akash@ethixweb.com"; // TODO: switch back to info@ethixweb.com before going live
-const FROM_EMAIL = "Ethixweb Website <forms@ethixweb.com>";
-const SITE_URL = "https://ethixweb.com";
-const APP_URL = "https://ethixweb-reimagined.vercel.app";
-const MASCOT_URL = `${SITE_URL}/Ethan%20view%203.png`;
-const LOGO_URL = `${APP_URL}/ethixweb.png`;
-const BRAND_RED = "#c0272d";
-const DARK = "#0e0c14";
-
-const SERVICE_LABELS: Record<string, string> = {
-  website: "Website",
-  ai: "AI Automation",
-  crm: "CRM & Integrations",
-  seo: "SEO & Ads",
-  webapp: "Web Application",
-  other: "Something else",
-};
-
-const TIMELINE_LABELS: Record<string, string> = {
-  asap: "ASAP (under 2 weeks)",
-  month: "This month (2-4 weeks)",
-  quarter: "This quarter (1-3 months)",
-  planning: "Just planning (3+ months out)",
-};
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function row(label: string, value: string) {
-  return `
-    <tr>
-      <td style="padding:14px 0;border-bottom:1px solid #f0f0f0;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9aa0a6;margin-bottom:4px;">${label}</div>
-        <div style="font-size:15px;font-weight:600;color:#1a1a1a;">${value}</div>
-      </td>
-    </tr>`;
-}
+const TO_EMAIL = "info@ethixweb.com";
 
 export const Route = createFileRoute("/api/contact")({
   server: {
@@ -62,84 +31,122 @@ export const Route = createFileRoute("/api/contact")({
         const cleanOther = typeof other === "string" ? other.trim() : "";
 
         if (!cleanName || !cleanEmail) {
-          return Response.json({ ok: false, error: "Name and email are required" }, { status: 400 });
+          return Response.json(
+            { ok: false, error: "Name and email are required" },
+            { status: 400 },
+          );
         }
 
-        const serviceLabel = typeof service === "string" ? SERVICE_LABELS[service] ?? service : null;
-        const timelineLabel = typeof timeline === "string" ? TIMELINE_LABELS[timeline] ?? timeline : null;
+        const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!EMAIL_RE.test(cleanEmail)) {
+          return Response.json(
+            { ok: false, error: "Please enter a valid email address" },
+            { status: 400 },
+          );
+        }
 
-        const rows = [
-          serviceLabel && row("Service", escapeHtml(serviceLabel)),
-          cleanOther && row("Project details", escapeHtml(cleanOther)),
-          timelineLabel && row("Timeline", escapeHtml(timelineLabel)),
-          row("Name", escapeHtml(cleanName)),
-          cleanPhone && row("Phone", `<a href="tel:${escapeHtml(cleanPhone)}">${escapeHtml(cleanPhone)}</a>`),
-          row("Email", `<a href="mailto:${escapeHtml(cleanEmail)}">${escapeHtml(cleanEmail)}</a>`),
+        const apiKey = process.env.RESEND_API_KEY;
+        if (!apiKey) {
+          console.error("[api/contact] RESEND_API_KEY is not configured");
+          return Response.json(
+            { ok: false, error: "Email service not configured" },
+            { status: 500 },
+          );
+        }
+
+        const serviceLabel =
+          typeof service === "string" ? (SERVICE_LABELS[service] ?? service) : null;
+        const timelineLabel =
+          typeof timeline === "string" ? (TIMELINE_LABELS[timeline] ?? timeline) : null;
+        const firstName = cleanName.split(" ")[0] || cleanName;
+
+        const summaryRows = [
+          serviceLabel && emailRow("Service", escapeHtml(serviceLabel)),
+          cleanOther && emailRow("Project details", escapeHtml(cleanOther)),
+          timelineLabel && emailRow("Timeline", escapeHtml(timelineLabel)),
+          emailRow("Name", escapeHtml(cleanName)),
+          cleanPhone &&
+            emailRow(
+              "Phone",
+              `<a href="tel:${escapeHtml(cleanPhone)}">${escapeHtml(cleanPhone)}</a>`,
+            ),
+          emailRow(
+            "Email",
+            `<a href="mailto:${escapeHtml(cleanEmail)}">${escapeHtml(cleanEmail)}</a>`,
+          ),
         ]
           .filter(Boolean)
           .join("");
 
-        const firstName = cleanName.split(" ")[0] || cleanName;
+        const summaryTable = `<table role="presentation" width="100%" style="border-collapse:collapse;">${summaryRows}</table>`;
 
-        const html = `
-          <div style="background:#f4f4f7;padding:32px 16px;font-family:Arial,Helvetica,sans-serif;">
-            <table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #ececec;">
-              <tr>
-                <td style="background:${DARK};padding:32px;">
-                  <table role="presentation" width="100%">
-                    <tr>
-                      <td style="vertical-align:middle;">
-                        <img src="${LOGO_URL}" width="160" height="24" alt="Ethixweb" style="display:block;border:0;width:160px;height:24px;" />
-                        <div style="margin-top:10px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${BRAND_RED};">New project inquiry</div>
-                      </td>
-                      <td style="width:72px;text-align:right;vertical-align:bottom;">
-                        <img src="${MASCOT_URL}" width="72" alt="" style="display:block;border:0;" />
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:28px 32px 8px;">
-                  <p style="margin:0 0 8px;font-size:15px;line-height:1.5;color:#1a1a1a;">
-                    <strong>${escapeHtml(cleanName)}</strong> just submitted the contact form on the website. Here's what they shared:
-                  </p>
-                  <table role="presentation" width="100%" style="border-collapse:collapse;">
-                    ${rows}
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:8px 32px 32px;">
-                  <a href="mailto:${escapeHtml(cleanEmail)}" style="display:inline-block;background:${BRAND_RED};color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:999px;">Reply to ${escapeHtml(firstName)}</a>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:18px 32px;background:#fafafa;border-top:1px solid #f0f0f0;text-align:center;">
-                  <p style="margin:0;font-size:12px;color:#9aa0a6;">Sent automatically from the Ethixweb contact form &middot; ethixweb.com</p>
-                </td>
-              </tr>
-            </table>
-          </div>`;
-
-        const apiKey = process.env.RESEND_API_KEY;
-        if (!apiKey) {
-          console.error("RESEND_API_KEY is not configured");
-          return Response.json({ ok: false, error: "Email service not configured" }, { status: 500 });
-        }
-
-        const resend = new Resend(apiKey);
-        const { error } = await resend.emails.send({
-          from: FROM_EMAIL,
-          to: TO_EMAIL,
-          replyTo: cleanEmail,
-          subject: `New project inquiry from ${cleanName}`,
-          html,
+        // ── Internal notification (sent to the Ethixweb team) ──────────────
+        const notificationHtml = emailShell({
+          eyebrow: "New project inquiry",
+          footerText: "Sent automatically from the Ethixweb contact form &middot; ethixweb.com",
+          bodyHtml: `
+            <p style="margin:0 0 8px;font-size:15px;line-height:1.5;color:#1a1a1a;">
+              <strong>${escapeHtml(cleanName)}</strong> just submitted the contact form on the website. Here's what they shared:
+            </p>
+            ${summaryTable}
+            <div style="margin-top:20px;">
+              ${emailButton(`mailto:${escapeHtml(cleanEmail)}`, `Reply to ${escapeHtml(firstName)}`)}
+            </div>`,
         });
 
-        if (error) {
-          console.error("Resend error:", error);
+        // ── Confirmation email (sent to the person who submitted the form) ──
+        const confirmationHtml = emailShell({
+          eyebrow: "We've got your message",
+          footerText: "This confirms your submission to Ethixweb &middot; ethixweb.com",
+          bodyHtml: `
+            <p style="margin:0 0 8px;font-size:15px;line-height:1.5;color:#1a1a1a;">
+              Hi ${escapeHtml(firstName)}, thanks for reaching out to Ethixweb! We've received your details below and our team will follow up within one business day with a clear, no-jargon plan.
+            </p>
+            ${summaryTable}
+            <p style="margin:20px 0 0;font-size:13px;line-height:1.6;color:#9aa0a6;">
+              Didn't submit this? You can safely ignore this email, or let us know at
+              <a href="mailto:${REPLY_TO_INFO}" style="color:#c0272d;">${REPLY_TO_INFO}</a>.
+            </p>`,
+        });
+
+        const resend = new Resend(apiKey);
+
+        // Notification to the Ethixweb team is the critical send - the lead
+        // is only considered captured if this succeeds.
+        try {
+          const { error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: TO_EMAIL,
+            replyTo: cleanEmail,
+            subject: `New project inquiry from ${cleanName}`,
+            html: notificationHtml,
+          });
+
+          if (error) {
+            console.error("[api/contact] Resend notification error:", error);
+            return Response.json({ ok: false, error: "Failed to send email" }, { status: 502 });
+          }
+        } catch (err) {
+          console.error("[api/contact] Resend notification threw:", err);
           return Response.json({ ok: false, error: "Failed to send email" }, { status: 502 });
+        }
+
+        // Confirmation to the user is best-effort - log failures but don't
+        // fail the request, since the lead has already been captured.
+        try {
+          const { error } = await resend.emails.send({
+            from: FROM_EMAIL,
+            to: cleanEmail,
+            replyTo: REPLY_TO_INFO,
+            subject: "We've received your message - Ethixweb",
+            html: confirmationHtml,
+          });
+
+          if (error) {
+            console.error("[api/contact] Resend confirmation error:", error);
+          }
+        } catch (err) {
+          console.error("[api/contact] Resend confirmation threw:", err);
         }
 
         return Response.json({ ok: true });

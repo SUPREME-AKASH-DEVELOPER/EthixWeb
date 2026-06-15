@@ -114,7 +114,7 @@ function Page() {
         <div className="mx-auto max-w-5xl text-center">
           <Reveal>
             <p className="text-sm uppercase tracking-widest text-primary mb-4">What We Do</p>
-            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
               Expert Website Design for Home Service Businesses
             </h2>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -139,7 +139,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">Website Process</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Designing digital experiences that inspire.
               </h2>
               <p className="mt-5 text-muted-foreground leading-relaxed max-w-xl">
@@ -167,7 +167,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">Services</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Everything you need under one roof.
               </h2>
             </div>
@@ -198,7 +198,7 @@ function Page() {
                 All of Our Websites Are
               </p>
             </div>
-            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient max-w-2xl">
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient max-w-2xl pb-1">
               Built to look great, load fast, and convert.
             </h2>
           </Reveal>

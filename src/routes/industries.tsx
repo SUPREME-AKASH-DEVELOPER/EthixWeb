@@ -106,7 +106,7 @@ function Industries() {
 
       <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl glass-strong rounded-[2rem] p-12 text-center">
-          <h2 className="font-display text-4xl font-bold text-gradient">
+          <h2 className="font-display text-4xl font-bold text-gradient pb-1">
             Which industry are you in?
           </h2>
           <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
@@ -156,7 +156,7 @@ function IndustryBlock({
               <div className="inline-flex items-center gap-2 text-primary text-sm uppercase tracking-widest">
                 <Icon className="h-5 w-5" strokeWidth={1.5} /> {eyebrow}
               </div>
-              <h2 className="mt-4 font-display text-3xl lg:text-4xl font-bold text-gradient leading-tight">
+              <h2 className="mt-4 font-display text-3xl lg:text-4xl font-bold text-gradient leading-tight pb-1">
                 {title}
               </h2>
               <p className="mt-5 text-muted-foreground leading-relaxed">{pain}</p>

@@ -28,32 +28,53 @@ const REVIEWS = [
   },
 ];
 
-function StarRow({ count, brand, total = count }: { count: number; brand: string; total?: number }) {
+function StarRow({
+  count,
+  brand,
+  total = count,
+  className = "h-4 w-4",
+}: {
+  count: number;
+  brand: string;
+  total?: number;
+  className?: string;
+}) {
   return (
-    <div className="flex gap-0.5">
+    <div className="flex gap-1">
       {Array.from({ length: total }).map((_, i) => {
         const color = i < count ? brand : "#6b7280";
-        return <Star key={i} className="h-4 w-4" style={{ fill: color, color }} />;
+        return <Star key={i} className={className} style={{ fill: color, color }} />;
       })}
     </div>
   );
 }
 
-function TrustpilotLogo({ brand, filled = 5 }: { brand: string; filled?: number }) {
+function TrustpilotLogo({
+  brand,
+  filled = 5,
+  size = "sm",
+}: {
+  brand: string;
+  filled?: number;
+  size?: "sm" | "lg";
+}) {
   const starColor = brand === BRAND_DARK ? "#0c0d10" : "#ffffff";
+  const box = size === "lg" ? "h-7 w-7" : "h-5 w-5";
+  const icon = size === "lg" ? "h-4 w-4" : "h-3 w-3";
+  const label = size === "lg" ? "text-base" : "text-xs";
   return (
-    <div className="flex flex-col items-end gap-1">
-      <div className="flex gap-0.5">
+    <div className="flex flex-col items-end gap-1.5">
+      <div className="flex gap-1">
         {[...Array(5)].map((_, i) => {
           const bg = i < filled ? brand : "#6b7280";
           return (
-            <div key={i} className="flex h-5 w-5 items-center justify-center" style={{ background: bg }}>
-              <Star className="h-3 w-3" style={{ fill: starColor, color: starColor }} />
+            <div key={i} className={`flex ${box} items-center justify-center`} style={{ background: bg }}>
+              <Star className={icon} style={{ fill: starColor, color: starColor }} />
             </div>
           );
         })}
       </div>
-      <span className="text-xs font-bold tracking-tight text-foreground">Trustpilot</span>
+      <span className={`${label} font-bold tracking-tight text-foreground`}>Trustpilot</span>
     </div>
   );
 }
@@ -116,7 +137,7 @@ export function Testimonials() {
   const brand = theme === "light" ? BRAND_LIGHT : BRAND_DARK;
 
   return (
-    <section className="relative overflow-hidden px-6 py-24 lg:pt-52">
+    <section className="relative px-6 py-24 lg:pt-36 lg:pb-28 [clip-path:inset(-100vh_0px_-100vh_0px)]">
       <div
         className="pointer-events-none absolute left-1/4 top-1/2 h-144 w-xl -translate-y-1/2 rounded-full blur-[140px]"
         style={{ background: `${brand}0d` }}
@@ -125,49 +146,62 @@ export function Testimonials() {
 
       <div className="relative mx-auto max-w-7xl">
         <Reveal>
-          <div className="flex flex-col items-center gap-6 text-center lg:flex-row lg:justify-between lg:text-left">
+          <div className="flex flex-col items-center gap-12 text-center lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:text-left">
             <div className="max-w-xl">
               <p className="mb-3 text-sm font-bold uppercase tracking-[0.24em] text-primary">
                 Client Reviews
               </p>
-              <h2 className="text-3xl font-extrabold leading-tight text-gradient lg:text-5xl">
+              <h2 className="text-3xl font-extrabold leading-tight text-gradient lg:text-5xl pb-1">
                 Trusted by businesses worldwide.
               </h2>
-              <p className="mt-4 text-base leading-7 text-muted-foreground">
+              <p className="mt-5 text-base leading-7 text-muted-foreground lg:text-lg">
                 Real feedback from clients who trusted Ethixweb to design, build, and grow their
                 digital presence.
               </p>
             </div>
 
-            <div className="premium-card relative shrink-0 rounded-2xl p-6 text-center lg:min-w-55">
+            <div className="premium-card relative w-full max-w-sm shrink-0 overflow-visible rounded-3xl px-8 pb-4.5 pt-18.5 text-center sm:px-10 sm:pt-22.5 lg:max-w-sm lg:min-w-90 lg:pt-22.5">
               <img
-                src="/f9455e1a26e54d4b8507af196eeec144.png"
+                src="/ethan%20sitting.png"
                 alt=""
                 aria-hidden="true"
-                className="pointer-events-none absolute hidden h-55.25 w-auto object-contain object-bottom drop-shadow-[0_12px_20px_rgba(0,0,0,0.25)] lg:block z-50"
+                className="pointer-events-none absolute bottom-full right-36 -mb-32.25 h-60.25 w-auto object-contain drop-shadow-[0_14px_28px_rgba(0,0,0,0.28)] sm:right-38 sm:h-75.25 sm:-mb-35 lg:right-40 lg:h-90.75 lg:-mb-37.5"
                 loading="lazy"
                 decoding="async"
-                style={{ top: "calc(-6rem - 46px)", right: "calc(0.5rem + 69px)" }}
               />
-              <TrustpilotLogo brand={brand} filled={4} />
-              <div className="mt-4 flex items-end justify-center gap-1">
-                <span className="text-5xl font-extrabold text-foreground">4.0</span>
-                <span className="mb-1.5 text-lg text-muted-foreground">/5</span>
+              <div className="relative -top-10 -mt-2.5 flex justify-end">
+                <TrustpilotLogo brand={brand} filled={4} size="lg" />
+              </div>
+              <div className="mt-1 flex items-end justify-center gap-3">
+                <span className="text-7xl font-extrabold leading-none text-foreground sm:text-8xl">
+                  4.0
+                </span>
+                <span className="mb-3 text-2xl font-bold text-muted-foreground">/5</span>
               </div>
               <div className="mt-2 flex justify-center">
-                <StarRow count={4} total={5} brand={brand} />
+                <StarRow count={4} total={5} brand={brand} className="h-7 w-7 sm:h-8 sm:w-8" />
               </div>
-              <p className="mt-2 text-[11px] uppercase tracking-widest text-muted-foreground/60">
+              <p className="mt-1 text-xs font-bold uppercase tracking-[0.22em] text-muted-foreground/70">
                 Trustpilot Rating
+              </p>
+              <div className="mt-2 border-y border-border py-2">
+                <p className="text-3xl font-extrabold text-foreground">24/7</p>
+                <p className="mt-1 text-[11px] uppercase tracking-wide text-muted-foreground">
+                  Global Availability
+                </p>
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Real feedback from real clients - we're proud to deliver work that earns trust,
+                every time.
               </p>
               <a
                 href="https://www.trustpilot.com/review/ethixweb.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-4 py-1.5 text-xs font-bold text-foreground transition hover:bg-muted"
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand px-8 py-3 text-base font-bold text-primary-foreground shadow-glow transition hover:scale-[1.02]"
               >
                 Read reviews
-                <ExternalLink className="h-3 w-3" />
+                <ExternalLink className="h-5 w-5" />
               </a>
             </div>
           </div>

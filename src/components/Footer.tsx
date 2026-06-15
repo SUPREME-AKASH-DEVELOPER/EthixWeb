@@ -69,7 +69,7 @@ export function Footer() {
             <p className="mt-6 max-w-sm text-sm text-muted-foreground leading-relaxed">
               Revamp your online presence with bespoke designs crafted for your business success.
             </p>
-            <div className="mt-6 flex gap-2">
+            <div className="mt-6 flex gap-3">
               {SOCIAL_LINKS.map(({ Icon, href, label }) => (
                 <a
                   key={label}
@@ -77,9 +77,9 @@ export function Footer() {
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-md glass text-foreground transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 hover:bg-[linear-gradient(135deg,#d13a40,#8a181c)]! hover:border-[#c0272d]! hover:text-white! hover:shadow-[0_10px_28px_rgba(192,39,45,0.4)]!"
+                  className="flex h-10 w-10 items-center justify-center rounded-full glass text-foreground transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:bg-[linear-gradient(135deg,#d13a40,#8a181c)]! hover:border-[#c0272d]! hover:text-white! hover:shadow-[0_6px_18px_rgba(192,39,45,0.35)]!"
                 >
-                  <Icon className="h-9 w-9" />
+                  <Icon className="h-4.5 w-4.5" />
                 </a>
               ))}
             </div>

@@ -40,7 +40,7 @@ function Careers() {
                 to="/contact"
                 className="group glass rounded-2xl p-6 flex items-center justify-between gap-6 hover:bg-white/[0.06] transition"
               >
-                <div>
+                <div className="min-w-0">
                   <h3 className="font-display text-xl font-semibold">{r.t}</h3>
                   <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
                     <span className="inline-flex items-center gap-1">

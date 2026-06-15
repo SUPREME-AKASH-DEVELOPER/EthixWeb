@@ -35,7 +35,7 @@ function ShippingPolicy() {
             <Section title="Digital Services Only">
               <p>
                 Ethixweb is a fully digital agency. We do not ship physical products. All
-                deliverables — websites, designs, reports, code files, and strategy documents —
+                deliverables - websites, designs, reports, code files, and strategy documents -
                 are delivered electronically.
               </p>
             </Section>

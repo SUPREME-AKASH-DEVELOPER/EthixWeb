@@ -116,7 +116,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">What We Do</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Why Graphic Design & Branding Matter
               </h2>
             </div>
@@ -141,7 +141,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">Our Services</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Graphic Design & Branding Services
               </h2>
             </div>
@@ -167,7 +167,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">Why Choose Us</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Design that earns attention.
               </h2>
             </div>
@@ -193,7 +193,7 @@ function Page() {
           <div className="absolute -bottom-32 -right-32 h-80 w-80 rounded-full bg-accent/20 blur-[120px]" />
           <Reveal>
             <p className="text-sm uppercase tracking-widest text-primary mb-4 relative">Why Us</p>
-            <h2 className="relative font-display text-4xl lg:text-5xl font-bold text-gradient max-w-3xl">
+            <h2 className="relative font-display text-4xl lg:text-5xl font-bold text-gradient max-w-3xl pb-1">
               Graphic Design & Branding
             </h2>
             <div className="relative mt-6 space-y-5 text-muted-foreground leading-relaxed max-w-3xl">

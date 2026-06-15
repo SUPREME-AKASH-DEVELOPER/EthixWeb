@@ -55,7 +55,7 @@ export function Navbar() {
     <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
       <div
         className={`mx-auto max-w-7xl rounded-2xl transition-all duration-500 ${
-          scrolled || open ? "glass-strong shadow-elegant" : "bg-transparent"
+          scrolled || open ? "glass-strong" : "bg-transparent"
         }`}
       >
         <div className="flex items-center justify-between px-5 py-3">

@@ -99,7 +99,7 @@ const METRICS = [
 ];
 
 // ─── Continent polygons for land detection ────────────────────────────────────
-// [lat, lon][] — equirectangular, used to fill an offscreen canvas once
+// [lat, lon][] - equirectangular, used to fill an offscreen canvas once
 const CONTINENT_POLYS: [number, number][][] = [
   // North America
   [
@@ -197,14 +197,10 @@ const CONTINENT_POLYS: [number, number][][] = [
     [24, 66],
     [30, 62],
     [38, 52],
-    [36, 36],
-    [30, 34],
-    [22, 38],
-    [12, 44],
-    [30, 34],
-    [36, 36],
-    [37, 37],
-    [37, 10],
+    [41, 48],
+    [41, 40],
+    [37, 36],
+    [36, 28],
     [44, 28],
     [50, 20],
     [55, 22],
@@ -235,6 +231,64 @@ const CONTINENT_POLYS: [number, number][][] = [
     [20, -17],
     [30, -10],
     [37, 10],
+  ],
+  // Western & Southern Europe (France, Iberia, Italy, Scandinavia)
+  [
+    [71, 5],
+    [71, 30],
+    [60, 30],
+    [45, 20],
+    [36, 15],
+    [36, -6],
+    [43, -9],
+    [48, -5],
+    [51, 4],
+    [58, 6],
+    [63, 5],
+    [71, 5],
+  ],
+  // Arabian Peninsula
+  [
+    [30, 35],
+    [22, 39],
+    [16, 43],
+    [12, 44],
+    [16, 53],
+    [23, 58],
+    [27, 51],
+    [30, 48],
+    [33, 46],
+    [33, 38],
+    [30, 35],
+  ],
+  // India
+  [
+    [24, 68],
+    [29, 71],
+    [31, 77],
+    [28, 88],
+    [22, 91],
+    [16, 82],
+    [11, 79],
+    [8, 77],
+    [12, 75],
+    [16, 73],
+    [21, 70],
+    [24, 68],
+  ],
+  // Indonesia / Southeast Asia islands
+  [
+    [6, 95],
+    [-6, 106],
+    [-8, 114],
+    [-9, 120],
+    [-2, 134],
+    [-9, 142],
+    [0, 130],
+    [5, 125],
+    [14, 121],
+    [10, 109],
+    [6, 95],
   ],
   // Australia
   [
@@ -355,7 +409,7 @@ function project(lat: number, lon: number, rotY: number, rotX: number) {
   return { x, y: y * cx - z * sx, z: y * sx + z * cx };
 }
 
-// Shared tick — one setInterval drives all clocks
+// Shared tick - one setInterval drives all clocks
 const _clockSubs = new Set<() => void>();
 let _clockTimer: ReturnType<typeof setInterval> | null = null;
 function _startClock() {
@@ -416,7 +470,7 @@ function GlobeStage() {
 
   // Pre-generate Fibonacci sphere points with land tag
   const spherePointsRef = useRef<{ lat: number; lon: number; land: boolean }[]>([]);
-  // Pre-sampled ocean indices — computed once, avoids Math.random() every frame
+  // Pre-sampled ocean indices - computed once, avoids Math.random() every frame
   const oceanSetRef = useRef<Set<number>>(new Set());
   const visibleRef = useRef(false);
 
@@ -435,7 +489,7 @@ function GlobeStage() {
       const lon = Math.atan2(Math.sin(th) * r, Math.cos(th) * r) * (180 / Math.PI);
       const land = isLand(lat, lon, map);
       pts.push({ lat, lon, land });
-      // Pre-sample 12% of ocean dots — no Math.random() per frame
+      // Pre-sample 12% of ocean dots - no Math.random() per frame
       if (!land && Math.random() < 0.12) oceanSet.add(i);
     }
     spherePointsRef.current = pts;
@@ -447,13 +501,13 @@ function GlobeStage() {
       if (!wrapRef.current) return;
       const w = wrapRef.current.clientWidth;
       const h = wrapRef.current.clientHeight || w;
-      setSize(Math.max(280, Math.min(w, h, 832)));
+      setSize(Math.max(280, Math.min(w, h, 760)));
     };
     update();
     const ro = new ResizeObserver(update);
     if (wrapRef.current) ro.observe(wrapRef.current);
     window.addEventListener("resize", update);
-    // Pause rAF when globe is off-screen — biggest perf win on scroll
+    // Pause rAF when globe is off-screen - biggest perf win on scroll
     const io = new IntersectionObserver(
       ([entry]) => { visibleRef.current = entry.isIntersecting; },
       { threshold: 0.05 },
@@ -528,7 +582,7 @@ function GlobeStage() {
       ctx.clearRect(0, 0, size, size);
 
       // ── Outer atmospheric halo
-      // ── Sphere dark base — fade to transparent at edge so no harsh ring
+      // ── Sphere dark base - fade to transparent at edge so no harsh ring
       const sphere = ctx.createRadialGradient(
         cx - radius * 0.3,
         cy - radius * 0.35,
@@ -540,13 +594,13 @@ function GlobeStage() {
       sphere.addColorStop(0, "rgba(80, 30, 38, 0.65)");
       sphere.addColorStop(0.55, "rgba(18, 14, 26, 0.70)");
       sphere.addColorStop(0.88, "rgba(10, 10, 18, 0.55)");
-      sphere.addColorStop(1, "rgba(10, 10, 18, 0)"); // transparent edge — kills harsh ring
+      sphere.addColorStop(1, "rgba(10, 10, 18, 0)"); // transparent edge - kills harsh ring
       ctx.fillStyle = sphere;
       ctx.beginPath();
       ctx.arc(cx, cy, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // ── Thin directional rim light — thick→smooth from top-left fading to nothing
+      // ── Thin directional rim light - thick→smooth from top-left fading to nothing
       ctx.save();
       // Clip to a narrow annular ring at the edge
       ctx.beginPath();
@@ -579,7 +633,7 @@ function GlobeStage() {
         const light = Math.max(0, v.x * -0.3 + v.y * 0.4 + v.z * 0.6);
 
         if (pt.land) {
-          // Land: bright warm dots — create continent shapes
+          // Land: bright warm dots - create continent shapes
           const alpha = 0.25 + depth * 0.65 + light * 0.12;
           const r = 180 + Math.floor(depth * 62);
           const g = 52 + Math.floor(depth * 30);
@@ -589,7 +643,7 @@ function GlobeStage() {
           ctx.arc(cx + v.x * radius, cy - v.y * radius, 0.55 + depth * 0.9, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Ocean: pre-sampled 12% subset — no per-frame Math.random()
+          // Ocean: pre-sampled 12% subset - no per-frame Math.random()
           const alpha = 0.03 + depth * 0.09;
           ctx.fillStyle = `rgba(80,90,130,${alpha})`;
           ctx.beginPath();
@@ -625,7 +679,8 @@ function GlobeStage() {
       }
 
       overlayElapsed += dt;
-      if (overlayElapsed > 66) {
+      const overlayInterval = draggingRef.current ? 0 : 33;
+      if (overlayElapsed > overlayInterval) {
         overlayElapsed = 0;
         setOverlayTick((t) => (t + 1) % 100000);
       }
@@ -654,9 +709,9 @@ function GlobeStage() {
       const dx = e.clientX - lastPosRef.current.x;
       const dy = e.clientY - lastPosRef.current.y;
       lastPosRef.current = { x: e.clientX, y: e.clientY };
-      rotYRef.current += dx * 0.4;
+      rotYRef.current -= dx * 0.4;
       rotXRef.current += dy * 0.4;
-      velYRef.current = dx * 0.4 * 0.18;
+      velYRef.current = -dx * 0.4 * 0.18;
       velXRef.current = dy * 0.4 * 0.18;
       lastInteractRef.current = performance.now();
     };
@@ -732,8 +787,8 @@ function GlobeStage() {
   return (
     <div
       ref={wrapRef}
-      className="relative mx-auto aspect-square w-full select-none overflow-hidden rounded-full"
-      style={{ maxWidth: 832 }}
+      className="globe-orb relative mx-auto aspect-square w-full select-none"
+      style={{ maxWidth: 760 }}
     >
       <canvas
         ref={canvasRef}
@@ -741,7 +796,11 @@ function GlobeStage() {
         style={{ willChange: "transform" }}
       />
 
-      <svg width={size} height={size} className="absolute inset-0 m-auto pointer-events-none">
+      <svg
+        width={size}
+        height={size}
+        className="absolute inset-0 m-auto overflow-visible pointer-events-none"
+      >
         <defs>
           <linearGradient id="arc-grad" x1="0" x2="1">
             <stop offset="0%" stopColor="var(--primary)" stopOpacity="0" />
@@ -960,9 +1019,9 @@ function GlobeStage() {
                   />
                   <rect
                     x={pt.x + lo}
-                    y={pt.y - (lo + 20)}
-                    width={(pt.city.name.length + (hub ? 4 : 0)) * 7.9 + 14}
-                    height="20"
+                    y={pt.y - (lo + 24)}
+                    width={(pt.city.name.length + (hub ? 4 : 0)) * 10.6 + 14}
+                    height="24"
                     rx="6"
                     fill="rgba(8,8,16,0.86)"
                     stroke="var(--primary)"
@@ -971,9 +1030,9 @@ function GlobeStage() {
                   />
                   <text
                     x={pt.x + lo + 7}
-                    y={pt.y - lo - 4}
+                    y={pt.y - lo - 5}
                     fill={hub ? "#ffffff" : "rgba(232,232,244,0.92)"}
-                    fontSize={hub ? "12.5" : "11.5"}
+                    fontSize={hub ? "16.5" : "15.5"}
                     fontWeight={hub ? "700" : "600"}
                     fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
                     letterSpacing="0.025em"
@@ -1074,8 +1133,7 @@ function ActivityTicker() {
 // ─── Export ───────────────────────────────────────────────────────────────────
 export function GlobalNetwork() {
   return (
-    <>
-      <section className="globe-dark-section relative overflow-hidden px-6 py-28 lg:py-32 -mt-px">
+    <section className="relative overflow-hidden px-6 py-28 lg:py-32">
         <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
         <div className="absolute left-1/2 top-1/3 h-216 w-216 -translate-x-1/2 rounded-full bg-primary/14 blur-[180px] pointer-events-none" />
         <div className="relative mx-auto max-w-7xl">
@@ -1084,7 +1142,7 @@ export function GlobalNetwork() {
               <p className="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-primary">
                 Global Operations Network
               </p>
-              <h2 className="text-4xl font-extrabold leading-[1.05] text-gradient lg:text-6xl">
+              <h2 className="pb-1 text-4xl font-extrabold leading-[1.05] text-gradient lg:text-6xl">
                 Built for fast-moving teams across time zones.
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
@@ -1126,7 +1184,7 @@ export function GlobalNetwork() {
             {METRICS.map((m, i) => (
               <Reveal key={m.l} delay={i * 0.08}>
                 <div className="premium-card rounded-2xl p-4 sm:p-6 text-center transition hover:bg-white/6">
-                  <div className="text-2xl sm:text-4xl font-extrabold text-gradient-brand whitespace-nowrap">{m.v}</div>
+                  <div className="text-xl sm:text-4xl font-extrabold text-gradient-brand whitespace-nowrap">{m.v}</div>
                   <div className="mt-2 text-[10px] sm:text-xs uppercase tracking-widest text-muted-foreground">
                     {m.l}
                   </div>
@@ -1136,7 +1194,5 @@ export function GlobalNetwork() {
           </div>
         </div>
       </section>
-      <div className="globe-transition" />
-    </>
   );
 }

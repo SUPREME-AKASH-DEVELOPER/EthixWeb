@@ -145,7 +145,7 @@ function Contact() {
 
               {/* ── Left panel ── */}
               <div className="relative flex flex-col justify-between overflow-hidden bg-[#0e0c14] px-8 py-10">
-                {/* Left panel mascot — hidden on success */}
+                {/* Left panel mascot - hidden on success */}
                 <AnimatePresence>
                   {!sent && (
                     <motion.img
@@ -233,7 +233,7 @@ function Contact() {
                   >
                     {status}
                   </motion.p>
-                  {/* Border line — behind mascot */}
+                  {/* Border line - behind mascot */}
                   <div className="relative z-0 border-t border-white/8" />
                   <div className="relative z-20 space-y-3 pt-2">
                     {[
@@ -269,10 +269,10 @@ function Contact() {
                           {step === 1 && "What do you need help with?"}
                           {step === 2 && !isOther && "When do you want to start?"}
                           {step === 2 &&  isOther && "Tell us more about your idea"}
-                          {step === 3 && "Almost there — your details"}
+                          {step === 3 && "Almost there - your details"}
                         </h3>
                         <p className="mt-1 text-sm text-white/50">
-                          Step {step} of {totalSteps} —{" "}
+                          Step {step} of {totalSteps} -{" "}
                           {step === 3 ? "enter your info" : "pick one"}
                         </p>
                       </motion.div>
@@ -282,7 +282,7 @@ function Contact() {
                     <div className="flex-1">
                       <AnimatePresence mode="wait" custom={dir}>
 
-                        {/* Step 1 — service */}
+                        {/* Step 1 - service */}
                         {step === 1 && (
                           <motion.div key="s1" custom={dir} variants={slide} initial="enter" animate="center" exit="exit" transition={{ duration: 0.24, ease: "easeOut" }}>
                             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -346,7 +346,7 @@ function Contact() {
                           </motion.div>
                         )}
 
-                        {/* Step 2 — timeline */}
+                        {/* Step 2 - timeline */}
                         {step === 2 && !isOther && (
                           <motion.div key="s2" custom={dir} variants={slide} initial="enter" animate="center" exit="exit" transition={{ duration: 0.24, ease: "easeOut" }}>
                             <div className="grid grid-cols-2 gap-3">
@@ -376,7 +376,7 @@ function Contact() {
                           </motion.div>
                         )}
 
-                        {/* Step 2 — other textarea */}
+                        {/* Step 2 - other textarea */}
                         {step === 2 && isOther && (
                           <motion.div key="s2-other" custom={dir} variants={slide} initial="enter" animate="center" exit="exit" transition={{ duration: 0.24, ease: "easeOut" }}>
                             <textarea
@@ -389,7 +389,7 @@ function Contact() {
                           </motion.div>
                         )}
 
-                        {/* Final step — contact details */}
+                        {/* Final step - contact details */}
                         {step === 3 && (
                           <motion.div key="s4" custom={dir} variants={slide} initial="enter" animate="center" exit="exit" transition={{ duration: 0.24, ease: "easeOut" }}>
                             <p className="mb-5 text-sm text-white/50 leading-relaxed">
@@ -472,7 +472,7 @@ function Contact() {
                     transition={{ duration: 0.45, ease: "easeOut" }}
                     className="relative flex-1 min-h-110"
                   >
-                    {/* Mascot — behind text */}
+                    {/* Mascot - behind text */}
                     <motion.img
                       src="/Ethan%20view%203.png"
                       alt=""
@@ -485,7 +485,7 @@ function Contact() {
                       transition={{ duration: 0.65, delay: 0.5, ease: "easeOut" }}
                     />
 
-                    {/* Check + "You're all set!" — right side near thumb */}
+                    {/* Check + "You're all set!" - right side near thumb */}
                     <motion.div
                       initial={{ opacity: 0, x: 16 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -505,7 +505,7 @@ function Contact() {
                       </h3>
                     </motion.div>
 
-                    {/* Paragraph — bottom center, under the mascot */}
+                    {/* Paragraph - bottom center, under the mascot */}
                     <motion.p
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
