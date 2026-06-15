@@ -187,7 +187,7 @@ function Hero() {
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <h1 className="mt-7 max-w-5xl text-[clamp(2.61rem,6.34vw,6.16rem)] font-extrabold leading-[0.9] text-gradient">
+            <h1 className="mt-7 max-w-5xl pb-2 text-[clamp(2.61rem,6.34vw,6.16rem)] font-extrabold leading-[0.9] text-gradient">
               We run the tech.
               <br />
               You run the{" "}
@@ -348,7 +348,7 @@ function OperationsVisual() {
         >
           {sleeping && (
             <>
-              {/* Ambient glow — dark: red, light: soft neutral */}
+              {/* Ambient glow - dark: red, light: soft neutral */}
               <div
                 className="pointer-events-none absolute inset-0 z-0"
                 style={{
@@ -360,7 +360,7 @@ function OperationsVisual() {
                 }}
               />
 
-              {/* Laptop screen glow — soft blue-white pulse */}
+              {/* Laptop screen glow - soft blue-white pulse */}
               <div
                 className="laptop-screen-glow pointer-events-none absolute z-20"
                 style={{
@@ -382,7 +382,7 @@ function OperationsVisual() {
             alt="Ethixweb mascot"
             className={sleeping
               ? "w-full h-auto scale-[1.68] origin-bottom sm:scale-100 sm:w-auto sm:max-w-none sm:h-145 object-contain mascot-breathe"
-              : "h-101.5 sm:h-145 lg:h-160 max-w-none object-contain drop-shadow-[0_34px_90px_rgba(0,0,0,0.72)]"
+              : "h-101.5 sm:h-145 lg:h-160 max-w-none object-contain drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
             }
             initial={{ opacity: 0 }}
             animate={sleeping ? { opacity: 1 } : { opacity: 1, y: [0, -12, 0] }}
@@ -429,10 +429,10 @@ function OperationsVisual() {
             </motion.div>
           ))}
 
-        {/* After hours: one big dream cloud — mascot dreams the services, popping in sequence */}
+        {/* After hours: one big dream cloud - mascot dreams the services, popping in sequence */}
         {sleeping &&
           (() => {
-            const cloudSrc = CLOUD_LIGHT; // solid silhouette — fills interior fully (DARK MODE.svg is hollow/outline)
+            const cloudSrc = CLOUD_LIGHT; // solid silhouette - fills interior fully (DARK MODE.svg is hollow/outline)
             // Subtle dark glass, same family as the awake floating badges
             const fill = CLOUD_FILL;
             const dream = heroBadges[dreamIndex];
@@ -451,7 +451,7 @@ function OperationsVisual() {
                   y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
                 }}
               >
-                {/* Cloud silhouette — tail points toward laptop screen below */}
+                {/* Cloud silhouette - tail points toward laptop screen below */}
                 <div
                   className="absolute inset-0 backdrop-blur-lg"
                   style={{
@@ -495,8 +495,8 @@ function OperationsVisual() {
             );
           })()}
 
-        {/* Zzz particles — top layer (above the dream bubble too), drifting up above & around the head.
-            Parent is preserve-3d, so z-index is ignored — translateZ pushes these toward the camera. */}
+        {/* Zzz particles - top layer (above the dream bubble too), drifting up above & around the head.
+            Parent is preserve-3d, so z-index is ignored - translateZ pushes these toward the camera. */}
         {sleeping && (
           <div
             className="pointer-events-none absolute z-40"
@@ -561,7 +561,7 @@ function Services() {
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-primary">
               Solutions
             </p>
-            <h2 className="text-4xl font-extrabold leading-tight text-gradient lg:text-6xl">
+            <h2 className="pb-1 text-4xl font-extrabold leading-tight text-gradient lg:text-6xl">
               Senior operators for the systems that grow the business.
             </h2>
           </div>
@@ -673,7 +673,7 @@ function OperatingSystem() {
             <p className="mb-4 text-sm font-bold uppercase tracking-[0.24em] text-primary">
               Operating model
             </p>
-            <h2 className="text-4xl font-extrabold leading-tight text-gradient lg:text-6xl">
+            <h2 className="pb-1 text-4xl font-extrabold leading-tight text-gradient lg:text-6xl">
               Built like an internal technology team.
             </h2>
             <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
@@ -724,37 +724,19 @@ function Proof() {
 function CTA() {
   return (
     <section className="px-6 py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="premium-card relative overflow-hidden rounded-4xl px-6 py-16 text-center sm:px-12 lg:py-24">
-          <div className="absolute inset-0 ambient-red opacity-80" />
-          <div className="absolute inset-0 grid-bg opacity-30" />
-          <Reveal>
-            <div className="relative mx-auto max-w-3xl">
-              <h2 className="text-4xl font-extrabold leading-tight text-gradient lg:text-7xl">
-                Ready for a sharper digital operation?
-              </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-                Bring us the messy stack, missed leads, slow site, or stalled automation. We will
-                turn it into a system.
-              </p>
-              <div className="mt-10 flex flex-wrap justify-center gap-4">
-                <Link
-                  to="/contact"
-                  className="magnetic group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 font-bold text-primary-foreground shadow-glow"
-                >
-                  Start a project
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-                </Link>
-                <Link
-                  to="/portfolio"
-                  className="magnetic inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4.5 px-7 py-3.5 font-bold text-foreground hover:border-primary/40 hover:bg-primary/10"
-                >
-                  See our work
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
+      <div className="mx-auto max-w-7xl glass-strong rounded-4xl p-12 text-center">
+        <Reveal>
+          <h2 className="font-display text-4xl font-bold text-gradient">Want to work with us?</h2>
+          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
+            If you're a contractor tired of being one of 200 accounts at a big agency, let's talk.
+          </p>
+          <Link
+            to="/contact"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 font-medium shadow-glow"
+          >
+            Get in touch <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

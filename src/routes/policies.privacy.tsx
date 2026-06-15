@@ -8,7 +8,7 @@ export const Route = createFileRoute("/policies/privacy")({
   head: () => ({
     meta: [
       { title: "Privacy Policy - Ethixweb" },
-      { name: "description", content: "Ethixweb privacy policy — how we collect, use, and protect your data." },
+      { name: "description", content: "Ethixweb privacy policy - how we collect, use, and protect your data." },
     ],
   }),
   component: PrivacyPolicy,

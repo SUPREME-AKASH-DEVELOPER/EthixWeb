@@ -67,7 +67,7 @@ function Blog() {
                     <h3 className="mt-3 font-display text-2xl lg:text-3xl font-semibold">{p.t}</h3>
                     <p className="mt-2 text-muted-foreground">{p.d}</p>
                   </div>
-                  <ArrowUpRight className="h-6 w-6 text-primary group-hover:rotate-45 transition" />
+                  <ArrowUpRight className="h-6 w-6 shrink-0 text-primary group-hover:rotate-45 transition" />
                 </div>
               </a>
             </Reveal>

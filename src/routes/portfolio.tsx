@@ -94,7 +94,7 @@ function Portfolio() {
 
         <Reveal>
           <div className="mt-16 glass-strong rounded-[2rem] p-12 text-center">
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient">
+            <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient pb-1">
               Your business could be next.
             </h2>
             <Link

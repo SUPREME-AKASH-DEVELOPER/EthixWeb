@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const CLICK_SRC = "/click-sound-effects-copyright-free_NBeVl5YB.mp3";
 
-// Reuse a single Audio element as a template — clone it per click so
+// Reuse a single Audio element as a template - clone it per click so
 // rapid successive clicks can overlap instead of cutting each other off
 let _template: HTMLAudioElement | null = null;
 function getTemplate(): HTMLAudioElement | null {

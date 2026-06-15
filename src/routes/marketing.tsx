@@ -93,7 +93,7 @@ function Page() {
         <div className="mx-auto max-w-5xl text-center">
           <Reveal>
             <p className="text-sm uppercase tracking-widest text-primary mb-4">What We Do</p>
-            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+            <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
               Elevate Your Brand with Social Media Marketing
             </h2>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
@@ -132,7 +132,7 @@ function Page() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient leading-tight">
+            <h2 className="font-display text-3xl lg:text-4xl font-bold text-gradient leading-tight pb-1">
               Over 3.4 billion people connect via social media.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
@@ -153,7 +153,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">We'll Help You</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Strategy. Content. Conversion.
               </h2>
               <p className="mt-5 text-muted-foreground leading-relaxed max-w-xl">
@@ -190,7 +190,7 @@ function Page() {
           <Reveal>
             <div className="max-w-2xl">
               <p className="text-sm uppercase tracking-widest text-primary mb-4">Pricing</p>
-              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient">
+              <h2 className="font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
                 Become the social media leader in your local market.
               </h2>
             </div>
@@ -255,7 +255,7 @@ function Page() {
         <div className="mx-auto max-w-7xl glass-strong rounded-[2rem] p-12 lg:p-16 text-center relative overflow-hidden">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-[40rem] bg-primary/20 blur-[120px] rounded-full" />
           <Megaphone className="h-10 w-10 text-primary mx-auto mb-4 relative" />
-          <h2 className="relative font-display text-4xl lg:text-5xl font-bold text-gradient">
+          <h2 className="relative font-display text-4xl lg:text-5xl font-bold text-gradient pb-1">
             Ready to grow on social?
           </h2>
           <p className="relative mt-4 text-muted-foreground max-w-xl mx-auto">

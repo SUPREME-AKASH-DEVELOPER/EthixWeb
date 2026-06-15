@@ -56,11 +56,11 @@ function Page() {
               <div className="absolute inset-0 ambient-red opacity-70" />
               <div className="absolute inset-0 grid-bg opacity-35" />
               <div className="relative rounded-2xl border border-white/10 bg-[#0C0D10]/70 p-5">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-4">
                   <p className="text-xs font-bold uppercase tracking-[0.24em] text-primary">
                     Automation layer
                   </p>
-                  <Sparkles className="h-4 w-4 text-primary" />
+                  <Sparkles className="h-4 w-4 shrink-0 text-primary" />
                 </div>
                 <div className="mt-5 grid gap-3">
                   {[
@@ -106,7 +106,7 @@ function CTA() {
     <section className="px-6 py-20">
       <div className="mx-auto max-w-7xl glass-strong rounded-[2rem] p-12 text-center">
         <Sparkles className="h-10 w-10 text-primary mx-auto mb-4" />
-        <h2 className="font-display text-4xl font-bold text-gradient">
+        <h2 className="font-display text-4xl font-bold text-gradient pb-1">
           Let's automate your hardest process.
         </h2>
         <Link

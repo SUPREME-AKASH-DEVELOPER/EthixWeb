@@ -3,6 +3,7 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
 
 @theme inline {
   --font-display: "Kumbh Sans", system-ui, sans-serif;
@@ -69,9 +70,12 @@
     radial-gradient(ellipse 65% 46% at 18% 18%, rgba(57, 21, 22, 0.55), transparent 64%),
     linear-gradient(180deg, #0c0d10 0%, #100f18 48%, #180f0f 100%);
   --gradient-glow: radial-gradient(circle at center, rgba(138, 24, 28, 0.34), transparent 62%);
-  --shadow-glow: 0 0 58px rgba(138, 24, 28, 0.29), 0 0 144px rgba(57, 21, 22, 0.26);
-  --shadow-elegant: 0 24px 84px -26px rgba(0, 0, 0, 0.94), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  --shadow-card: 0 22px 72px -41px rgba(0, 0, 0, 0.95);
+  --shadow-glow: 0 0 48px rgba(138, 24, 28, 0.24), 0 0 120px rgba(57, 21, 22, 0.18);
+
+  /* ── Shadow system: 3-tier elevation, consistent across cards/panels ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-md: 0 12px 28px -16px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-lg: 0 20px 48px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
 /* ── Light mode token overrides ───────────────────────────────────────────── */
@@ -104,13 +108,12 @@
     radial-gradient(ellipse 55% 50% at 55% 60%, rgba(138, 24, 28, 0.18), transparent 65%),
     linear-gradient(180deg, #fff5f5 0%, #fef0f0 50%, #fce8e8 100%);
   --gradient-glow: radial-gradient(circle at center, rgba(138, 24, 28, 0.14), transparent 62%);
-  --shadow-glow: 0 0 58px rgba(138, 24, 28, 0.17), 0 0 144px rgba(138, 24, 28, 0.10);
-  --shadow-elegant:
-    0 2px 10px rgba(0, 0, 0, 0.07), 0 10px 38px -10px rgba(0, 0, 0, 0.19),
-    0 0 0 1px rgba(0, 0, 0, 0.07);
-  --shadow-card:
-    0 2px 7px rgba(0, 0, 0, 0.06), 0 10px 34px -10px rgba(0, 0, 0, 0.17),
-    0 24px 58px -19px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 48px rgba(138, 24, 28, 0.16), 0 0 120px rgba(138, 24, 28, 0.09);
+
+  /* ── Shadow system: 3-tier elevation, consistent across cards/panels ── */
+  --shadow-sm: 0 1px 2px rgba(20, 16, 15, 0.04), 0 1px 3px rgba(20, 16, 15, 0.05);
+  --shadow-md: 0 8px 20px -8px rgba(20, 16, 15, 0.12), 0 2px 5px rgba(20, 16, 15, 0.06);
+  --shadow-lg: 0 16px 40px -16px rgba(20, 16, 15, 0.16), 0 4px 10px rgba(20, 16, 15, 0.07);
 }
 
 html {
@@ -174,23 +177,36 @@ html.dark {
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
+  .shadow-sm {
+    box-shadow: var(--shadow-sm);
+  }
+  .shadow-md {
+    box-shadow: var(--shadow-md);
+  }
+  .shadow-lg,
   .shadow-elegant {
-    box-shadow: var(--shadow-elegant);
+    box-shadow: var(--shadow-lg);
   }
   .shadow-card {
-    box-shadow: var(--shadow-card);
+    box-shadow: var(--shadow-sm);
   }
 
   .glass {
     background: linear-gradient(135deg, rgba(39, 18, 29, 0.58), rgba(16, 15, 24, 0.42));
     backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .glass:hover {
+    box-shadow: var(--shadow-md);
   }
 
   .glass-strong {
     background: linear-gradient(135deg, rgba(39, 18, 29, 0.82), rgba(12, 13, 16, 0.74));
     backdrop-filter: blur(24px) saturate(155%);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-lg);
   }
 
   .premium-card {
@@ -198,10 +214,12 @@ html.dark {
       linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
       linear-gradient(180deg, rgba(39, 18, 29, 0.76), rgba(12, 13, 16, 0.72));
     border: 1px solid rgba(255, 255, 255, 0.075);
-    box-shadow:
-      0 29px 108px -50px rgba(0, 0, 0, 0.95),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(22px) saturate(145%);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .premium-card:hover {
+    box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
   .text-gradient {
@@ -460,7 +478,7 @@ html.dark {
   background: rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Hero floating thought-clouds — premium glass, organic shape via inline radius */
+/* Hero floating thought-clouds - premium glass, organic shape via inline radius */
 .thought-cloud {
   transition: box-shadow 0.3s ease;
 }
@@ -482,82 +500,20 @@ html.dark {
   background-color: var(--primary) !important;
 }
 
-/* Globe / GlobalNetwork section — keep dark */
-.globe-dark-section {
+/* Globe orb - the circular globe itself stays dark in both themes,
+   the section around it follows the normal page theme. The dark
+   circle is a separate, slightly inset element behind the canvas so
+   it can be sized independently of the globe's own render size. */
+.globe-orb {
   background: transparent;
 }
-.light .globe-dark-section {
-  background: linear-gradient(
-    180deg,
-    #fff8f8 0%,
-    #fff8f8 0.4%,
-    #f0ebe7 1.6%,
-    #e0d9d4 2.8%,
-    #c4bdb8 4.2%,
-    #9c9592 5.8%,
-    #706b72 7.2%,
-    #484550 8.4%,
-    #2e2c34 9.6%,
-    #191921 10.8%,
-    #0c0d10 12%,
-    #0c0d10 100%
-  );
-  padding-bottom: 5rem;
-}
-.light .globe-transition {
-  height: 160px;
-  margin-top: -1px;
-  background: linear-gradient(
-    to bottom,
-    #0c0d10 0%,
-    #0c0d10 8%,
-    #181820 16.5%,
-    #2c2a30 25%,
-    #46434a 33.5%,
-    #67636a 42%,
-    #8f8884 50.5%,
-    #b6b0ac 59%,
-    #d9d2cc 67.5%,
-    #ece7e3 76%,
-    #fff8f8 84.5%,
-    #fff8f8 100%
-  );
-}
-/* Force all base text white inside the always-dark globe section */
-.light .globe-dark-section {
-  color: oklch(0.95 0.005 30);
-}
-
-/* Red gradient heading inside the always-dark globe section */
-.light .globe-dark-section .text-gradient {
-  background: linear-gradient(135deg, #e05050 0%, #8a181c 50%, #5a0f10 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.light .globe-dark-section p,
-.light .globe-dark-section span,
-.light .globe-dark-section h2 {
-  color: inherit;
-}
-.light .globe-dark-section .text-muted-foreground {
-  color: rgba(210, 205, 200, 0.8);
-}
-.light .globe-dark-section .text-primary {
-  color: #e06060;
-}
-.light .globe-dark-section .text-foreground,
-.light .globe-dark-section .text-foreground\/90,
-.light .globe-dark-section .text-foreground\/85,
-.light .globe-dark-section .text-foreground\/80 {
-  color: #f0ede8;
-}
-.light .globe-dark-section .glass,
-.light .globe-dark-section .premium-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: none;
-  color: #f0ede8;
+.globe-orb::before {
+  content: "";
+  position: absolute;
+  inset: 4.5%;
+  border-radius: 50%;
+  background: #0c0d10;
+  box-shadow: var(--shadow-lg);
 }
 
 /* Footer borders */
@@ -595,15 +551,16 @@ html.dark {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(248, 245, 242, 0.68));
   backdrop-filter: blur(20px) saturate(140%);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--shadow-sm);
+}
+.light .glass:hover {
+  box-shadow: var(--shadow-md);
 }
 .light .glass-strong {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(250, 247, 244, 0.45));
   backdrop-filter: blur(28px) saturate(180%);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-lg);
 }
 .light header {
   --muted-foreground: #3a3030;
@@ -612,19 +569,11 @@ html.dark {
 .light .premium-card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 244, 0.95));
   border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.05),
-    0 10px 29px -7px rgba(0, 0, 0, 0.14),
-    0 29px 67px -19px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 1);
   backdrop-filter: blur(12px) saturate(130%);
 }
 .light .premium-card:hover {
-  box-shadow:
-    0 2px 5px rgba(0, 0, 0, 0.06),
-    0 14px 38px -10px rgba(0, 0, 0, 0.19),
-    0 38px 77px -24px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 .light .text-gradient {
   background: linear-gradient(135deg, #16100f 0%, #3d2020 52%, #8a181c 100%);
