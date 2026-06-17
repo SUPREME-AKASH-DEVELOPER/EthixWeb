@@ -24,6 +24,7 @@ import {
 const LIVE_PATHS = new Set(["/", "/contact"]);
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal } from "@/components/Reveal";
+import { RotatingText } from "@/components/RotatingText";
 import { Testimonials } from "@/components/Testimonials";
 import { useTheme } from "@/components/ThemeProvider";
 import operatorCharacter from "@/assets/operator-character.webp";
@@ -225,7 +226,7 @@ function Hero() {
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
-            <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-muted-foreground sm:text-xl">
+            <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-foreground/75 sm:text-xl">
               We manage your digital operation, from AI booking agents and CRM integrations to
               websites, SEO and ads.
             </p>
@@ -241,7 +242,7 @@ function Hero() {
               </Link>
               <div
                 title="Coming soon"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4.5 px-7 py-3.5 font-bold text-muted-foreground/40 backdrop-blur-xl cursor-not-allowed select-none"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4.5 px-7 py-3.5 font-bold text-foreground/70 backdrop-blur-xl cursor-not-allowed select-none"
               >
                 See our work
                 <Ban className="h-4 w-4 text-primary/60" />
@@ -473,7 +474,7 @@ function OperationsVisual() {
               <motion.div
                 className="pointer-events-none absolute z-20 flex items-center justify-center"
                 style={isMobile
-                  ? { top: "calc(41% - 95px)", left: "calc(6% - 5px)", width: "160px", height: "110px" }
+                  ? { top: "calc(41% - 110px)", left: "calc(6% - 5px)", width: "160px", height: "110px" }
                   : { top: "calc(22% - 10px)", left: "12%", width: "220px", height: "158px" }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: isMobile ? 0.65 : 0.88, scale: 1, y: isMobile ? [0, -5, 0] : [0, -6, 0] }}
@@ -594,7 +595,16 @@ function Services() {
               Solutions
             </p>
             <h2 className="pb-1 text-4xl font-extrabold leading-tight text-gradient lg:text-6xl">
-              Senior operators for the systems that grow the business.
+              Senior operators for the systems that grow the{" "}
+              <RotatingText
+                texts={["business.", "growth.", "revenue.", "pipeline."]}
+                mainClassName="align-bottom"
+                elementLevelClassName="text-primary"
+                staggerFrom="last"
+                staggerDuration={0.02}
+                rotationInterval={3500}
+                transition={{ type: "spring", damping: 28, stiffness: 380 }}
+              />
             </h2>
           </div>
         </Reveal>
