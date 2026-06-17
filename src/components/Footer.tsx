@@ -153,7 +153,7 @@ function FooterCol({ title, links }: { title: string; links: [string, string][] 
               </Link>
             ) : (
               <span className="inline-flex cursor-not-allowed select-none">
-                <span className="text-sm text-muted-foreground/35">{label}</span>
+                <span className="text-sm text-foreground/65">{label}</span>
               </span>
             )}
           </li>

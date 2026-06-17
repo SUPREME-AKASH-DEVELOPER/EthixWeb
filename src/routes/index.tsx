@@ -289,11 +289,11 @@ const ZZZ_PARTICLES = [
 const CLOUD_FILL = "linear-gradient(150deg, rgba(40,24,30,0.7), rgba(18,16,24,0.66))";
 
 const heroBadges = [
-  { label: "More booked jobs", style: { top: "5%", left: "2%" }, icon: PhoneCall, radius: "42% 58% 53% 47% / 48% 42% 58% 52%" },
-  { label: "More conversions", style: { top: "10%", right: "0%" }, icon: TrendingUp, radius: "55% 45% 48% 52% / 44% 56% 44% 56%" },
-  { label: "UI/UX Systems", style: { top: "44%", left: "0%" }, icon: Layers3, radius: "48% 52% 56% 44% / 52% 48% 52% 48%" },
-  { label: "Revenue tracked", style: { bottom: "45%", right: "0%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
-  { label: "Design that converts", style: { bottom: "12%", left: "10%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
+  { label: "More booked jobs", style: { top: "calc(8% - 20px)", left: "4%" }, icon: PhoneCall, radius: "42% 58% 53% 47% / 48% 42% 58% 52%" },
+  { label: "More conversions", style: { top: "calc(13% - 20px)", right: "3%" }, icon: TrendingUp, radius: "55% 45% 48% 52% / 44% 56% 44% 56%" },
+  { label: "UI/UX Systems", style: { top: "42%", left: "5%" }, icon: Layers3, radius: "48% 52% 56% 44% / 52% 48% 52% 48%" },
+  { label: "Revenue tracked", style: { bottom: "43%", right: "5%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
+  { label: "Design that converts", style: { bottom: "16%", left: "12%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
 ];
 
 function OperationsVisual() {
@@ -436,12 +436,12 @@ function OperationsVisual() {
           heroBadges.map((badge, i) => (
             <motion.div
               key={badge.label}
-              className="absolute z-20 flex cursor-default items-center justify-center gap-2 sm:gap-2.5 rounded-full p-3 sm:px-5 sm:py-3 backdrop-blur-xl"
+              className="absolute z-20 flex h-8 min-w-28 cursor-default items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 backdrop-blur-md sm:h-auto sm:min-w-0 sm:gap-2.5 sm:px-5 sm:py-3 sm:backdrop-blur-xl"
               style={{
                 ...badge.style,
-                border: "1px solid rgba(220,80,90,0.16)",
-                background: "linear-gradient(150deg, rgba(40,24,30,0.88), rgba(18,16,24,0.86))",
-                boxShadow: "0 12px 36px rgba(0,0,0,0.36), 0 2px 10px rgba(180,40,50,0.1)",
+                border: "1px solid rgba(220,80,90,0.1)",
+                background: "rgba(26,19,22,0.74)",
+                boxShadow: "0 6px 16px rgba(0,0,0,0.2), 0 1px 4px rgba(180,40,50,0.06)",
               }}
               initial={{ opacity: 0, scale: 0.88, y: 8 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -454,8 +454,8 @@ function OperationsVisual() {
                 y: { duration: 5 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
               }}
             >
-              <badge.icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" style={{ color: "rgba(225,110,118,0.85)" }} />
-              <span className="whitespace-nowrap text-xs sm:text-sm font-medium" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <badge.icon className="h-3 w-3 shrink-0 sm:h-4 sm:w-4" style={{ color: "rgba(225,110,118,0.85)" }} />
+              <span className="whitespace-nowrap text-[11px] font-medium sm:text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
                 {badge.label}
               </span>
             </motion.div>
@@ -629,8 +629,8 @@ function Services() {
                 <div className="premium-card relative h-full overflow-hidden rounded-2xl p-6 cursor-default">
                   <div className="absolute -right-16 -top-16 h-36 w-36 rounded-full bg-primary/0 blur-3xl" />
                   <service.icon className="h-7 w-7 text-primary/60" strokeWidth={1.7} />
-                  <h3 className="mt-7 text-xl font-bold text-foreground/70">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground/50">{service.desc}</p>
+                  <h3 className="mt-7 text-xl font-bold text-foreground">{service.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-foreground/75">{service.desc}</p>
                   <div className="mt-7 inline-flex items-center gap-1.5 text-sm font-bold text-muted-foreground/35">
                     Coming soon
                     <Ban className="h-3.5 w-3.5 text-primary/50" />
