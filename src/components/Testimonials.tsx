@@ -165,7 +165,7 @@ export function Testimonials() {
                 src="/ethan%20sitting.webp"
                 alt=""
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-full right-36 -mb-32.25 h-60.25 w-auto object-contain drop-shadow-[0_14px_28px_rgba(0,0,0,0.28)] sm:right-38 sm:h-75.25 sm:-mb-35 lg:right-40 lg:h-90.75 lg:-mb-37.5"
+                className="pointer-events-none absolute bottom-full right-[214px] -mb-[71px] h-[174px] w-auto object-contain drop-shadow-[0_14px_28px_rgba(0,0,0,0.28)] sm:right-38 sm:h-75.25 sm:-mb-35 lg:right-40 lg:h-90.75 lg:-mb-37.5"
                 loading="lazy"
                 decoding="async"
               />

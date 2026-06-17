@@ -120,6 +120,8 @@ html {
   background: var(--background);
   color-scheme: light;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 html.light {
   background: var(--background);
@@ -136,7 +138,9 @@ html.dark {
   }
   body {
     min-width: 320px;
+    max-width: 100%;
     overflow-x: hidden;
+    overscroll-behavior-x: none;
     background-color: var(--color-background);
     background-image:
       radial-gradient(ellipse 60% 70% at 0% 20%, rgba(16, 15, 24, 0.85), transparent 60%),
