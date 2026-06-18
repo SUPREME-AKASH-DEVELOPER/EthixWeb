@@ -122,6 +122,11 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+  display: none;
 }
 html.light {
   background: var(--background);
@@ -141,6 +146,8 @@ html.dark {
     max-width: 100%;
     overflow-x: hidden;
     overscroll-behavior-x: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     background-color: var(--color-background);
     background-image:
       radial-gradient(ellipse 60% 70% at 0% 20%, rgba(16, 15, 24, 0.85), transparent 60%),
@@ -154,6 +161,9 @@ html.dark {
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
+  }
+  body::-webkit-scrollbar {
+    display: none;
   }
   h1,
   h2,
@@ -435,7 +445,9 @@ html.dark {
       transform: translateX(0);
     }
     to {
-      transform: translateX(-50%);
+      /* Content is rendered as 3 duplicated copies (see SignalStrip in index.tsx) so the
+         loop point must be -1/3, not -1/2, or the strip visibly snaps each cycle. */
+      transform: translateX(-33.3333%);
     }
   }
   @keyframes grain {

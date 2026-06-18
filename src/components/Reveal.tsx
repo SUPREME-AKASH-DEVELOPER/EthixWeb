@@ -1,4 +1,4 @@
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 const v: Variants = {
@@ -18,6 +18,7 @@ export function Reveal({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [fallback, setFallback] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   // Safety net: force visible after 1.4s if IntersectionObserver never fires
   // (older iOS Safari has known bugs with rootMargin)
@@ -30,10 +31,10 @@ export function Reveal({
     <motion.div
       ref={ref}
       className={className}
-      initial="hidden"
-      animate={inView || fallback ? "show" : "hidden"}
+      initial={reduceMotion ? "show" : "hidden"}
+      animate={inView || fallback || reduceMotion ? "show" : "hidden"}
       variants={v}
-      transition={{ delay }}
+      transition={reduceMotion ? { duration: 0 } : { delay }}
     >
       {children}
     </motion.div>

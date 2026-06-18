@@ -60,7 +60,7 @@ function Careers() {
                     </span>
                   </div>
                 </div>
-                <ArrowUpRight className="h-6 w-6 text-primary group-hover:rotate-45 transition" />
+                <ArrowUpRight className="h-6 w-6 shrink-0 text-primary group-hover:rotate-45 transition" />
               </Link>
             </Reveal>
           ))}

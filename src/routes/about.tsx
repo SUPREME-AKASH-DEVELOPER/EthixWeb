@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { SiteLayout } from "@/components/SiteLayout";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
@@ -115,6 +115,7 @@ const REASONS = [
 ];
 
 function About() {
+  const reduceMotion = useReducedMotion();
   return (
     <SiteLayout>
       <PageHero
@@ -145,17 +146,19 @@ function About() {
           <Reveal>
             <motion.div
               className="relative mx-auto max-w-80"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ y: reduceMotion ? 0 : [0, -10, 0] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
             >
               <div className="absolute inset-6 rounded-full bg-primary/[0.14] blur-[90px]" />
-              <div className="relative h-117">
+              <div className="relative aspect-320/468 sm:h-117 sm:aspect-auto">
                 <img
                   src={operatorCharacter}
                   alt="Ethixweb team"
+                  width={1024}
+                  height={1536}
                   loading="lazy"
                   decoding="async"
-                  className="absolute bottom-0 left-1/2 z-10 h-112.5 max-w-none -translate-x-1/2 object-contain drop-shadow-[0_16px_36px_rgba(0,0,0,0.4)]"
+                  className="absolute bottom-0 left-1/2 z-10 h-[96%] sm:h-112.5 max-w-none -translate-x-1/2 object-contain drop-shadow-[0_16px_36px_rgba(0,0,0,0.4)]"
                 />
                 {[
                   { label: "US-Focused Ops", icon: Globe2, style: { top: "8%", left: "4%" } },

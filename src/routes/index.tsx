@@ -1,9 +1,15 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import {
   ArrowUpRight,
-  Ban,
   Bot,
   BrainCircuit,
   Cable,
@@ -197,12 +203,12 @@ function Home() {
 
 function Hero() {
   return (
-    <section className="relative -mt-24 overflow-hidden bg-gradient-hero px-6 pb-4 pt-36 sm:pb-28 lg:pt-40">
+    <section className="relative -mt-24 overflow-hidden bg-gradient-hero px-6 pb-4 pt-20 sm:pb-28 sm:pt-36 lg:pt-40">
       <div className="absolute inset-0 grid-bg opacity-50" />
       <div className="absolute left-1/2 top-0 h-136 w-136 -translate-x-1/2 rounded-full bg-primary/20 blur-[100px]" />
       <div className="absolute bottom-0 right-0 h-120 w-120 rounded-full bg-primary/15 blur-[100px]" />
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-14 pt-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-14 pt-4 sm:pt-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <Reveal>
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary">
@@ -242,11 +248,12 @@ function Hero() {
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
               </Link>
               <div
+                aria-disabled="true"
                 title="Coming soon"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4.5 px-7 py-3.5 font-bold text-foreground/70 backdrop-blur-xl cursor-not-allowed select-none"
+                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/4.5 px-7 py-3.5 font-bold text-foreground/40 backdrop-blur-xl cursor-not-allowed select-none"
               >
                 See our work
-                <Ban className="h-4 w-4 text-primary/60" />
+                <ArrowUpRight className="h-4 w-4" />
               </div>
             </div>
           </Reveal>
@@ -291,17 +298,28 @@ const ZZZ_PARTICLES = [
 const CLOUD_FILL = "linear-gradient(150deg, rgba(40,24,30,0.7), rgba(18,16,24,0.66))";
 
 const heroBadges = [
-  { label: "More booked jobs", style: { top: "calc(8% - 20px)", left: "4%" }, icon: PhoneCall, radius: "42% 58% 53% 47% / 48% 42% 58% 52%" },
-  { label: "More conversions", style: { top: "calc(13% - 20px)", right: "3%" }, icon: TrendingUp, radius: "55% 45% 48% 52% / 44% 56% 44% 56%" },
-  { label: "UI/UX Systems", style: { top: "42%", left: "5%" }, icon: Layers3, radius: "48% 52% 56% 44% / 52% 48% 52% 48%" },
-  { label: "Revenue tracked", style: { bottom: "43%", right: "5%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
-  { label: "Design that converts", style: { bottom: "16%", left: "12%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
+  { label: "More booked jobs", style: { top: "2%", left: "2%" }, icon: PhoneCall, radius: "42% 58% 53% 47% / 48% 42% 58% 52%" },
+  { label: "More conversions", style: { top: "6%", right: "2%" }, icon: TrendingUp, radius: "55% 45% 48% 52% / 44% 56% 44% 56%" },
+  { label: "UI/UX Systems", style: { top: "47%", left: "2%" }, icon: Layers3, radius: "48% 52% 56% 44% / 52% 48% 52% 48%" },
+  { label: "Revenue tracked", style: { top: "58%", right: "1%" }, icon: DollarSign, radius: "52% 48% 44% 56% / 48% 56% 44% 52%" },
+  { label: "Design that converts", style: { top: "70%", left: "2%" }, icon: Palette, radius: "46% 54% 58% 42% / 56% 44% 56% 44%" },
+];
+
+// Mobile (<640px): compact pills tuned to the mascot's actual silhouette at narrow widths -
+// the raised arm/wave reaches far right near the top, so the right-side badge sits lower.
+const heroBadgesMobile = [
+  { label: "More booked jobs", style: { top: "1%", left: "3%" }, icon: PhoneCall },
+  { label: "More conversions", style: { top: "36%", right: "3%" }, icon: TrendingUp },
+  { label: "UI/UX Systems", style: { top: "48%", left: "3%" }, icon: Layers3 },
+  { label: "Revenue tracked", style: { top: "60%", right: "3%" }, icon: DollarSign },
+  { label: "Design that converts", style: { top: "76%", left: "1%" }, icon: Palette },
 ];
 
 function OperationsVisual() {
   const sleeping = useIsSleeping();
   const { theme } = useTheme();
   const isMobile = useIsMobile();
+  const reduceMotion = useReducedMotion();
 
   // While sleeping, cycle through the services inside the single dream cloud
   const [dreamIndex, setDreamIndex] = useState(0);
@@ -320,7 +338,7 @@ function OperationsVisual() {
   const charY = useSpring(useTransform(my, [-1, 1], [-12, 12]), { stiffness: 70, damping: 20 });
 
   useEffect(() => {
-    if (sleeping) return;
+    if (sleeping || reduceMotion) return;
     let raf = 0;
     let idleTimer: ReturnType<typeof setTimeout>;
     let pendingX = 0;
@@ -351,7 +369,7 @@ function OperationsVisual() {
       if (raf) cancelAnimationFrame(raf);
       clearTimeout(idleTimer);
     };
-  }, [sleeping, mx, my]);
+  }, [sleeping, reduceMotion, mx, my]);
 
   return (
     <motion.div className="relative mx-auto w-full max-w-130" style={{ perspective: "900px" }}>
@@ -414,18 +432,22 @@ function OperationsVisual() {
             key={sleeping ? "sleep" : "active"}
             src={sleeping ? SLEEP_SRC : operatorCharacter}
             alt="Ethixweb mascot"
+            width={sleeping ? 1920 : 1024}
+            height={sleeping ? 1080 : 1536}
             className={sleeping
               ? "w-full h-auto scale-[1.68] origin-bottom sm:scale-100 sm:w-auto sm:max-w-none sm:h-145 object-contain mascot-breathe"
               : "h-101.5 sm:h-145 lg:h-160 max-w-none object-contain drop-shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
             }
             initial={{ opacity: 0 }}
-            animate={sleeping ? { opacity: 1 } : { opacity: 1, y: [0, -12, 0] }}
+            animate={sleeping ? { opacity: 1 } : { opacity: 1, y: reduceMotion ? 0 : [0, -12, 0] }}
             transition={
               sleeping
                 ? { opacity: { duration: 1.0, ease: "easeOut" } }
                 : {
                     opacity: { duration: 0.6, ease: "easeOut" },
-                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                    y: reduceMotion
+                      ? { duration: 0 }
+                      : { duration: 4, repeat: Infinity, ease: "easeInOut" },
                   }
             }
             loading="eager"
@@ -438,26 +460,61 @@ function OperationsVisual() {
           heroBadges.map((badge, i) => (
             <motion.div
               key={badge.label}
-              className="absolute z-20 flex h-8 min-w-28 cursor-default items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 backdrop-blur-md sm:h-auto sm:min-w-0 sm:gap-2.5 sm:px-5 sm:py-3 sm:backdrop-blur-xl"
-              style={{
-                ...badge.style,
-                border: "1px solid rgba(220,80,90,0.1)",
-                background: "rgba(26,19,22,0.74)",
-                boxShadow: "0 6px 16px rgba(0,0,0,0.2), 0 1px 4px rgba(180,40,50,0.06)",
-              }}
+              className="glass absolute z-20 hidden h-8 min-w-28 cursor-default items-center justify-center gap-1.5 rounded-full px-2.5 py-1.5 sm:flex sm:h-auto sm:min-w-0 sm:gap-2.5 sm:px-5 sm:py-3 lg:hidden xl:flex"
+              style={badge.style}
               initial={{ opacity: 0, scale: 0.88, y: 8 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               whileHover={{ scale: 1.06, y: -4 }}
               viewport={{ once: true }}
-              animate={{ y: [0, -7, 0] }}
+              animate={{ y: reduceMotion ? 0 : [0, -7, 0] }}
               transition={{
                 opacity: { delay: i * 0.1, duration: 0.6, ease: "easeOut" },
                 scale: { delay: i * 0.1, type: "spring", stiffness: 280, damping: 22 },
-                y: { duration: 5 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
+                y: reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 5 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
               }}
             >
-              <badge.icon className="h-3 w-3 shrink-0 sm:h-4 sm:w-4" style={{ color: "rgba(225,110,118,0.85)" }} />
-              <span className="whitespace-nowrap text-[11px] font-medium sm:text-sm" style={{ color: "rgba(255,255,255,0.85)" }}>
+              <badge.icon
+                className="h-3 w-3 shrink-0 sm:h-4 sm:w-4"
+                style={{ color: theme === "light" ? "rgba(192,39,45,0.9)" : "rgba(225,110,118,0.85)" }}
+              />
+              <span
+                className="whitespace-nowrap text-[11px] font-medium sm:text-sm"
+                style={{ color: theme === "light" ? "rgba(20,16,15,0.88)" : "rgba(255,255,255,0.85)" }}
+              >
+                {badge.label}
+              </span>
+            </motion.div>
+          ))}
+
+        {/* Mobile (<640px): compact pills around the mascot, sized/positioned to clear his silhouette on narrow screens */}
+        {!sleeping &&
+          heroBadgesMobile.map((badge, i) => (
+            <motion.div
+              key={badge.label}
+              className="glass absolute z-20 flex h-7 cursor-default items-center justify-center gap-1 rounded-full px-2 sm:hidden"
+              style={badge.style}
+              initial={{ opacity: 0, scale: 0.88 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              animate={{ y: reduceMotion ? 0 : [0, -6, 0] }}
+              transition={{
+                opacity: { delay: i * 0.1, duration: 0.6, ease: "easeOut" },
+                scale: { delay: i * 0.1, type: "spring", stiffness: 280, damping: 22 },
+                y: reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 5 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
+              }}
+            >
+              <badge.icon
+                className="h-3 w-3 shrink-0"
+                style={{ color: theme === "light" ? "rgba(192,39,45,0.9)" : "rgba(225,110,118,0.85)" }}
+              />
+              <span
+                className="hidden whitespace-nowrap text-[9px] font-medium leading-none min-[375px]:inline"
+                style={{ color: theme === "light" ? "rgba(20,16,15,0.88)" : "rgba(255,255,255,0.85)" }}
+              >
                 {badge.label}
               </span>
             </motion.div>
@@ -478,11 +535,15 @@ function OperationsVisual() {
                   ? { top: "calc(41% - 110px)", left: "calc(6% - 5px)", width: "160px", height: "110px" }
                   : { top: "calc(22% - 10px)", left: "12%", width: "220px", height: "158px" }}
                 initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: isMobile ? 0.65 : 0.88, scale: 1, y: isMobile ? [0, -5, 0] : [0, -6, 0] }}
+                animate={{
+                  opacity: isMobile ? 0.65 : 0.88,
+                  scale: 1,
+                  y: reduceMotion ? 0 : isMobile ? [0, -5, 0] : [0, -6, 0],
+                }}
                 transition={{
                   opacity: { duration: 0.8, ease: "easeOut" },
                   scale: { type: "spring", stiffness: 240, damping: 22 },
-                  y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+                  y: reduceMotion ? { duration: 0 } : { duration: 6, repeat: Infinity, ease: "easeInOut" },
                 }}
               >
                 {/* Cloud silhouette - tail points toward laptop screen below */}
@@ -631,7 +692,7 @@ function Services() {
                     src="/Ethan%20view%202.webp"
                     alt=""
                     aria-hidden="true"
-                    className="pointer-events-none absolute hidden lg:block w-auto object-contain"
+                    className="pointer-events-none absolute hidden xl:block w-auto object-contain"
                     style={{ height: "1000px", right: "-130px", bottom: "calc(100% - 980px)", transformOrigin: "bottom right", transform: "scale(2.1)" }}
                     loading="lazy"
                     decoding="async"
@@ -674,7 +735,7 @@ function OperatingSystem() {
   const rows = OS_ROWS;
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-12 sm:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <Reveal>
           <div>
@@ -712,7 +773,7 @@ function OperatingSystem() {
 
 function Proof() {
   return (
-    <section className="px-6 py-20">
+    <section className="px-6 py-10 sm:py-20">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 lg:grid-cols-4 items-stretch">
         {metrics.map((metric, index) => (
           <Reveal key={metric.label} delay={index * 0.05} className="h-full">
@@ -731,7 +792,7 @@ function Proof() {
 
 function CTA() {
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-12 sm:py-24">
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-4xl glass-strong p-12 text-center">
         <div
           aria-hidden="true"
