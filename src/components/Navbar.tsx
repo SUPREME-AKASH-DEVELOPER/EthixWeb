@@ -71,7 +71,7 @@ export function Navbar() {
   return (
     <header className="fixed top-0 inset-x-0 z-50 px-4 pt-4">
       <div
-        className={`mx-auto max-w-7xl rounded-2xl transition-all duration-500 ${
+        className={`mx-auto max-w-7xl overflow-hidden rounded-2xl transition-all duration-500 ${
           scrolled || open ? "glass-strong" : "bg-transparent"
         }`}
       >
@@ -117,7 +117,7 @@ export function Navbar() {
           <div className="lg:hidden flex items-center gap-2">
             <ThemeToggle />
             <button
-              className="p-2 rounded-lg glass"
+              className="inline-flex items-center justify-center p-2 rounded-lg glass"
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
             >

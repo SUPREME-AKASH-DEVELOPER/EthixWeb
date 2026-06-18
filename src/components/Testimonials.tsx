@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "framer-motion";
 import { Star, ExternalLink } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { useTheme } from "./ThemeProvider";
@@ -112,6 +112,8 @@ function InfiniteCarousel({ brand }: { brand: string }) {
   const x = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
+  const dragging = useRef(false);
+  const reduceMotion = useReducedMotion();
 
   useAnimationFrame((_, delta) => {
     const trackW = trackRef.current?.scrollWidth ?? 0;
@@ -122,15 +124,34 @@ function InfiniteCarousel({ brand }: { brand: string }) {
       initialized.current = true;
       return;
     }
-    const next = x.get() + 0.4 * delta * 0.06;
-    x.set(next >= 0 ? -half : next);
+    if (!dragging.current && !reduceMotion) {
+      x.set(x.get() + 0.4 * delta * 0.06);
+    }
+    // Wrap so dragging (and autoplay) can roam freely while staying seamless -
+    // the track is duplicated, so shifting by exactly `half` is visually identical.
+    const v = x.get();
+    if (v > 0) x.set(v - half);
+    else if (v <= -trackW) x.set(v + half);
   });
 
   const duplicated = [...REVIEWS, ...REVIEWS, ...REVIEWS, ...REVIEWS];
 
   return (
     <div className="overflow-x-hidden overflow-y-visible py-4">
-      <motion.div ref={trackRef} className="flex gap-5" style={{ x }}>
+      <motion.div
+        ref={trackRef}
+        className="flex cursor-grab gap-5 active:cursor-grabbing"
+        style={{ x }}
+        drag="x"
+        dragElastic={0.05}
+        dragMomentum={false}
+        onDragStart={() => {
+          dragging.current = true;
+        }}
+        onDragEnd={() => {
+          dragging.current = false;
+        }}
+      >
         {duplicated.map((r, i) => (
           <ReviewCard key={i} review={r} brand={brand} />
         ))}
@@ -144,7 +165,7 @@ export function Testimonials() {
   const brand = theme === "light" ? BRAND_LIGHT : BRAND_DARK;
 
   return (
-    <section className="relative px-6 py-24 lg:pt-36 lg:pb-28 [clip-path:inset(-100vh_0px_-100vh_0px)]">
+    <section className="relative px-6 py-12 sm:py-24 lg:pt-36 lg:pb-28 [clip-path:inset(-100vh_0px_-100vh_0px)]">
       <div
         className="pointer-events-none absolute left-1/4 top-1/2 h-144 w-xl -translate-y-1/2 rounded-full blur-[140px]"
         style={{ background: `${brand}0d` }}

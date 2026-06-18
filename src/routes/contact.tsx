@@ -191,7 +191,7 @@ function Contact() {
                       src="/Ethan%20view%202.webp"
                       alt=""
                       aria-hidden="true"
-                      className="pointer-events-none absolute -bottom-25 -right-25 z-10 w-auto object-contain object-bottom"
+                      className="pointer-events-none absolute -bottom-25 -right-25 z-10 max-h-[55vh] w-auto object-contain object-bottom"
                       style={{ height: "600px" }}
                       loading="lazy"
                       decoding="async"
@@ -376,7 +376,7 @@ function Contact() {
                                       onChange={e => setSel(s => ({ ...s, [key]: e.target.value, service: null }))}
                                       placeholder={placeholder}
                                       aria-label={label}
-                                      className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-primary/50 focus:outline-none transition"
+                                      className="w-full rounded-lg bg-white/5 border border-white/10 px-3 py-2 text-base sm:text-sm text-white placeholder:text-white/30 focus:border-primary/50 focus:outline-none transition"
                                     />
                                   </label>
                                 ))}
@@ -426,7 +426,7 @@ function Contact() {
                               value={sel.other}
                               onChange={e => setSel(s => ({ ...s, other: e.target.value }))}
                               placeholder="e.g. We need an internal tool that tracks client jobs and sends automated follow-ups..."
-                              className="w-full rounded-xl bg-black/85 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25 transition resize-none"
+                              className="w-full rounded-xl bg-black/85 border border-white/10 px-4 py-3 text-base sm:text-sm text-white placeholder:text-white/25 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25 transition resize-none"
                             />
                           </motion.div>
                         )}
@@ -473,7 +473,7 @@ function Contact() {
                       {step > 1 ? (
                         <button
                           onClick={() => go(step - 1)}
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                          className="-ml-2 px-2 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
                         >
                           ← Back
                         </button>
@@ -519,7 +519,7 @@ function Contact() {
                       src="/Ethan%20view%203.webp"
                       alt=""
                       aria-hidden="true"
-                      className="pointer-events-none absolute -bottom-24.75 left-1/2 -translate-x-1/2 z-0 h-[40.824rem] w-auto object-contain object-bottom sm:left-auto sm:translate-x-0 sm:right-0 sm:h-[46.656rem]"
+                      className="pointer-events-none absolute -bottom-24.75 left-1/2 -translate-x-1/2 z-0 h-[40.824rem] max-h-[60vh] w-auto object-contain object-bottom sm:left-auto sm:translate-x-0 sm:right-0 sm:h-[46.656rem] sm:max-h-[65vh]"
                       loading="lazy"
                       decoding="async"
                       initial={{ opacity: 0, y: 40 }}
@@ -580,7 +580,7 @@ function Field({ label, name, type = "text", required = true }: { label: string;
         name={name}
         type={type}
         required={required}
-        className="mt-2 w-full rounded-xl bg-black/85 border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/25 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
+        className="mt-2 w-full rounded-xl bg-black/85 border border-white/10 px-4 py-3 text-base sm:text-sm text-white placeholder:text-white/25 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 transition"
       />
     </div>
   );

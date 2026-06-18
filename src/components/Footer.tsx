@@ -52,18 +52,18 @@ const SOCIAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="relative mt-32 border-t border-border overflow-hidden">
+    <footer className="relative mt-12 overflow-hidden border-t border-border sm:mt-32">
       <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
       <img
         src={FOOTER_MASCOT}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute hidden h-69.5 w-auto object-contain object-bottom opacity-95 sm:block lg:h-77.5"
+        className="pointer-events-none absolute hidden h-69.75 w-auto object-contain object-bottom opacity-95 lg:block"
         loading="lazy"
         decoding="async"
-        style={{ right: "-25px", bottom: "-40px" }}
+        style={{ right: "-25px", bottom: "-24px" }}
       />
-      <div className="mx-auto max-w-7xl px-6 py-20">
+      <div className="mx-auto max-w-7xl px-6 pt-10 pb-15.25 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Logo />
@@ -119,7 +119,7 @@ export function Footer() {
             alt=""
             aria-hidden="true"
             className="pointer-events-none absolute block sm:hidden w-auto object-contain"
-            style={{ height: "202px", right: "-70px", bottom: "-110px" }}
+            style={{ height: "202px", right: "-70px", bottom: "-61px" }}
             loading="lazy"
             decoding="async"
           />

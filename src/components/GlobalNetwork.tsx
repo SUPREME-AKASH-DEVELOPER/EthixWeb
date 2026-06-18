@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Activity, Radio, TrendingUp, Wrench, Zap } from "lucide-react";
 import { Reveal } from "./Reveal";
 
@@ -490,6 +490,7 @@ const GlobeStage = forwardRef<GlobeStageHandle>(function GlobeStage(_props, ref)
   const [size, setSize] = useState(608);
   const [overlayTick, setOverlayTick] = useState(0);
   const [focusedCity, setFocusedCity] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
 
   const rotYRef = useRef(20);
   const rotXRef = useRef(-13);
@@ -1049,18 +1050,22 @@ const GlobeStage = forwardRef<GlobeStageHandle>(function GlobeStage(_props, ref)
                   opacity="0.75"
                   filter="url(#hub-glow)"
                 >
-                  <animate
-                    attributeName="r"
-                    values={`${base * 1.1};${base * 1.9};${base * 1.1}`}
-                    dur="1.4s"
-                    repeatCount="indefinite"
-                  />
-                  <animate
-                    attributeName="opacity"
-                    values="0.85;0.35;0.85"
-                    dur="1.4s"
-                    repeatCount="indefinite"
-                  />
+                  {!reduceMotion && (
+                    <>
+                      <animate
+                        attributeName="r"
+                        values={`${base * 1.1};${base * 1.9};${base * 1.1}`}
+                        dur="1.4s"
+                        repeatCount="indefinite"
+                      />
+                      <animate
+                        attributeName="opacity"
+                        values="0.85;0.35;0.85"
+                        dur="1.4s"
+                        repeatCount="indefinite"
+                      />
+                    </>
+                  )}
                 </circle>
               )}
 
@@ -1072,18 +1077,22 @@ const GlobeStage = forwardRef<GlobeStageHandle>(function GlobeStage(_props, ref)
                 fill="var(--primary)"
                 fillOpacity={isFocused ? 0.2 : 0.1}
               >
-                <animate
-                  attributeName="r"
-                  values={`${base * 0.5};${base * 2.3};${base * 0.5}`}
-                  dur={hub ? "3.5s" : "5.2s"}
-                  repeatCount="indefinite"
-                />
-                <animate
-                  attributeName="opacity"
-                  values="0.55;0;0.55"
-                  dur={hub ? "3.5s" : "5.2s"}
-                  repeatCount="indefinite"
-                />
+                {!reduceMotion && (
+                  <>
+                    <animate
+                      attributeName="r"
+                      values={`${base * 0.5};${base * 2.3};${base * 0.5}`}
+                      dur={hub ? "3.5s" : "5.2s"}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      values="0.55;0;0.55"
+                      dur={hub ? "3.5s" : "5.2s"}
+                      repeatCount="indefinite"
+                    />
+                  </>
+                )}
               </circle>
 
               {/* Hub: inner ring + ambient circles */}
@@ -1097,18 +1106,22 @@ const GlobeStage = forwardRef<GlobeStageHandle>(function GlobeStage(_props, ref)
                     fillOpacity="0.22"
                     filter="url(#hub-glow)"
                   >
-                    <animate
-                      attributeName="r"
-                      values={`${base * 0.3};${base * 1.1};${base * 0.3}`}
-                      dur="2.1s"
-                      repeatCount="indefinite"
-                    />
-                    <animate
-                      attributeName="opacity"
-                      values="0.5;0;0.5"
-                      dur="2.1s"
-                      repeatCount="indefinite"
-                    />
+                    {!reduceMotion && (
+                      <>
+                        <animate
+                          attributeName="r"
+                          values={`${base * 0.3};${base * 1.1};${base * 0.3}`}
+                          dur="2.1s"
+                          repeatCount="indefinite"
+                        />
+                        <animate
+                          attributeName="opacity"
+                          values="0.5;0;0.5"
+                          dur="2.1s"
+                          repeatCount="indefinite"
+                        />
+                      </>
+                    )}
                   </circle>
                   <circle
                     cx={pt.x}
@@ -1298,7 +1311,7 @@ export function GlobalNetwork() {
   const focusOnCity = useCallback((city: string) => globeRef.current?.focusOn(city), []);
 
   return (
-    <section className="relative overflow-hidden px-6 py-28 lg:py-32">
+    <section className="relative overflow-hidden px-6 py-12 sm:py-28 lg:py-32">
         <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
         <div className="absolute left-1/2 top-1/3 h-216 w-216 -translate-x-1/2 rounded-full bg-primary/14 blur-[180px] pointer-events-none" />
         <div className="relative mx-auto max-w-7xl">

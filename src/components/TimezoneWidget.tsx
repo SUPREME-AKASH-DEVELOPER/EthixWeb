@@ -136,7 +136,7 @@ export function TimezoneWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.96 }}
             transition={{ duration: 0.18 }}
-            className="absolute right-0 mt-3 w-[320px] rounded-2xl shadow-elegant p-4 z-50"
+            className="absolute right-0 mt-3 w-[320px] max-w-[calc(100vw-2rem)] rounded-2xl shadow-elegant p-4 z-50"
             style={panelStyle}
           >
             <div className="flex items-center justify-between mb-3">
