@@ -512,50 +512,38 @@ function Contact() {
                     initial={{ opacity: 0, scale: 0.94 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.45, ease: "easeOut" }}
-                    className="relative flex-1 min-h-120 overflow-visible sm:min-h-136"
+                    className="relative flex min-h-100 flex-1 flex-col items-center justify-center gap-4 px-6 py-10 text-center sm:px-10"
                   >
-                    {/* Mascot - behind text */}
-                    <motion.img
-                      src="/Ethan%20view%203.webp"
-                      alt=""
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -bottom-24.75 left-1/2 -translate-x-1/2 z-0 h-[40.824rem] max-h-[60vh] w-auto object-contain object-bottom sm:left-auto sm:translate-x-0 sm:right-0 sm:h-[46.656rem] sm:max-h-[65vh]"
-                      loading="lazy"
-                      decoding="async"
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.65, delay: 0.5, ease: "easeOut" }}
-                    />
-
-                    {/* Check + "You're all set!" - right side near thumb */}
                     <motion.div
-                      initial={{ opacity: 0, x: 16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-                      className="absolute top-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 text-center sm:left-auto sm:translate-x-0 sm:right-6"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.25, type: "spring", stiffness: 260, damping: 20 }}
+                      className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/15"
                     >
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.25, type: "spring", stiffness: 260, damping: 20 }}
-                        className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/15"
-                      >
-                        <Check className="h-6 w-6 text-primary" />
-                      </motion.div>
-                      <h3 className={`text-2xl font-bold text-foreground ${isDark ? "drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]" : "drop-shadow-[0_0_14px_rgba(192,39,45,0.25)]"}`}>
-                        You're all set!
-                      </h3>
+                      <Check className="h-6 w-6 text-primary" />
                     </motion.div>
-
-                    {/* Paragraph - bottom center, under the mascot */}
+                    <h3 className={`text-2xl font-bold text-foreground ${isDark ? "drop-shadow-[0_0_18px_rgba(255,255,255,0.5)]" : "drop-shadow-[0_0_14px_rgba(192,39,45,0.25)]"}`}>
+                      You're all set!
+                    </h3>
                     <motion.p
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-                      className="absolute -bottom-1.5 left-0 right-0 z-10 text-center text-foreground/90 text-lg leading-relaxed px-8"
+                      className="max-w-sm text-lg leading-relaxed text-foreground/90"
                     >
                       We've received your details and will send your personalised roadmap within one business day.
                     </motion.p>
+                    <motion.img
+                      src="/Ethan%20view%203.webp"
+                      alt=""
+                      aria-hidden="true"
+                      className="pointer-events-none mt-2 h-36 w-auto object-contain sm:h-44"
+                      loading="lazy"
+                      decoding="async"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.65, delay: 0.5, ease: "easeOut" }}
+                    />
                   </motion.div>
                 )}
               </div>

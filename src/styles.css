@@ -277,6 +277,11 @@ html.dark {
     mask-image: radial-gradient(circle at center, black, transparent 72%);
   }
 
+  .bg-dot-grid {
+    background-image: radial-gradient(currentColor 1.4px, transparent 1.6px);
+    background-size: 16px 16px;
+  }
+
   .noise {
     position: relative;
   }
@@ -499,13 +504,80 @@ html.dark {
   }
   .tech-3d {
     color: #c0272d;
-    text-shadow:
-      1px 1px 0 #1c2541,
-      2px 2px 0 #1c2541,
-      3px 3px 0 #1c2541,
-      4px 4px 0 #1c2541,
-      5px 5px 0 #1c2541,
-      6px 6px 12px rgba(0, 0, 0, 0.35);
+    animation: tech-glow-pulse 6.5s ease-in-out infinite;
+  }
+  .tech-3d::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Cpath d='M0 15 H10 V6 H22 V6 H32 V24 H44 V15 H60' fill='none' stroke='white' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10' cy='6' r='1.3' fill='white'/%3E%3Ccircle cx='32' cy='24' r='1.3' fill='white'/%3E%3Ccircle cx='44' cy='15' r='1.3' fill='white'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 1.7em 0.85em;
+    background-position: 0 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: tech-circuit-flow 7s linear infinite;
+  }
+  .tech-3d::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 38%,
+      rgba(255, 255, 255, 0.1) 44%,
+      rgba(255, 255, 255, 0.95) 49%,
+      rgba(255, 255, 255, 0.1) 54%,
+      transparent 60%,
+      transparent 100%
+    );
+    background-size: 320% 100%;
+    background-position: 140% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+    animation: tech-circuit-sweep 4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  }
+  @keyframes tech-circuit-flow {
+    to {
+      background-position: -1.7em 0;
+    }
+  }
+  @keyframes tech-circuit-sweep {
+    0% {
+      background-position: 140% 0;
+    }
+    55% {
+      background-position: -40% 0;
+    }
+    100% {
+      background-position: -40% 0;
+    }
+  }
+  @keyframes tech-glow-pulse {
+    0%,
+    65%,
+    100% {
+      filter: drop-shadow(0 0 0px rgba(192, 39, 45, 0));
+    }
+    82% {
+      filter: drop-shadow(0 0 5px rgba(192, 39, 45, 0.5));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tech-3d,
+    .tech-3d::before,
+    .tech-3d::after {
+      animation: none;
+    }
   }
 }
 
