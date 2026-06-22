@@ -219,7 +219,9 @@ function Hero() {
           <Reveal delay={0.08}>
             <h1 className="mt-7 max-w-5xl pb-2 text-[clamp(2.61rem,6.34vw,6.16rem)] font-extrabold leading-[0.9] text-gradient">
               We run the{" "}
-              <span className="tech-3d relative inline-block">tech.</span>
+              <span className="tech-3d relative inline-block" data-text="tech.">
+                tech.
+              </span>
               <br />
               You run the{" "}
               <span
@@ -793,34 +795,53 @@ function Proof() {
 function CTA() {
   return (
     <section className="px-6 py-12 sm:py-24">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-4xl glass-strong p-12 text-center">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 right-8 hidden h-114.5 w-83.25 overflow-hidden sm:block sm:right-12 sm:h-145.5 sm:w-104 lg:right-16 lg:h-187.25 lg:w-135.25"
-        >
-          <img
-            src="/Ethan%20view%209.webp"
-            alt=""
-            aria-hidden="true"
-            className="absolute left-1/2 top-0 w-auto -translate-x-1/2 object-contain"
-            style={{ height: "196%" }}
-            loading="lazy"
-            decoding="async"
-          />
+      <Reveal>
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-4xl bg-card shadow-lg lg:aspect-[3/2]">
+          <div className="grid grid-cols-1 items-center gap-8 px-8 py-14 sm:px-12 sm:py-16 lg:h-full lg:grid-cols-[1.13fr_1fr] lg:items-stretch lg:gap-2 lg:px-0 lg:py-0">
+            <div className="relative z-10 flex flex-col justify-center text-center lg:pl-20 lg:pr-6 lg:text-left">
+              <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-primary sm:text-sm">
+                Robust Solutions
+              </p>
+              <h2 className="mt-4 font-display text-[2.75rem] font-extrabold leading-[1.05] tracking-tight text-card-foreground sm:text-6xl lg:text-[5rem]">
+                Want to work
+                <br />
+                with <span className="text-primary">us?</span>
+              </h2>
+              <p className="mx-auto mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground sm:text-xl lg:text-xl lg:mx-0">
+                Tired of being account #200 at a big agency? Work with a senior team that knows your business by name.
+              </p>
+              <Link
+                to="/contact"
+                className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 font-bold text-primary-foreground shadow-glow transition-transform hover:scale-[1.02]"
+              >
+                Get in touch <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="relative mx-auto h-[300px] w-full max-w-[340px] overflow-hidden sm:h-[380px] sm:max-w-[400px] lg:h-full lg:max-w-none">
+              <div
+                aria-hidden="true"
+                className="absolute left-1/2 top-[60%] h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(192,39,45,0.32),transparent_72%)] blur-2xl"
+              />
+              <div
+                aria-hidden="true"
+                className="bg-dot-grid absolute right-0 top-0 h-[55%] w-[65%] text-primary/35"
+                style={{
+                  WebkitMaskImage: "radial-gradient(circle at top right, black 30%, transparent 72%)",
+                  maskImage: "radial-gradient(circle at top right, black 30%, transparent 72%)",
+                }}
+              />
+              <img
+                src="/ethan-cta.webp"
+                alt="Ethixweb mascot Ethan"
+                className="absolute bottom-0 left-1/2 z-10 h-[94%] w-auto -translate-x-1/2 object-contain"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
         </div>
-        <Reveal className="relative z-10">
-          <h2 className="font-display text-4xl font-bold text-gradient">Want to work with us?</h2>
-          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
-            If you're a contractor tired of being one of 200 accounts at a big agency, let's talk.
-          </p>
-          <Link
-            to="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 font-bold text-primary-foreground shadow-glow"
-          >
-            Get in touch <ArrowUpRight className="h-4 w-4" />
-          </Link>
-        </Reveal>
-      </div>
+      </Reveal>
     </section>
   );
 }
