@@ -520,7 +520,7 @@ html.dark {
     -webkit-text-fill-color: transparent;
     opacity: 0.7;
     pointer-events: none;
-    animation: tech-circuit-flow 7s linear infinite;
+    animation: tech-circuit-flow 3.92s linear infinite;
   }
   .tech-3d::after {
     content: attr(data-text);
